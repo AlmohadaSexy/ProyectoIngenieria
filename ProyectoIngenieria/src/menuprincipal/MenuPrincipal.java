@@ -26,6 +26,19 @@ public class MenuPrincipal{
 		});
 	}
 	
+	public void open() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MenuPrincipal window = new MenuPrincipal();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
 	public MenuPrincipal() {
 		initialize();
 	}
