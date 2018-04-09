@@ -1,4 +1,4 @@
-package menuprincipal;
+package main;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import poblacion.*;
+import tresEc.*;
 
 public class MenuPrincipal{
 	
@@ -63,7 +66,8 @@ public class MenuPrincipal{
 		btn1.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		btn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				frame.dispose();
+				new ClaseSistema().open();
 			}
 		});
 		btn1.setBounds(0, (alturaVentana / 3)*0, anchuraVentana, alturaVentana / 3 - 20);
@@ -83,7 +87,8 @@ public class MenuPrincipal{
 		btn3.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		btn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				frame.dispose();
+				new ClasePoblacion().open();
 			}
 		});
 		btn3.setBounds(0, (alturaVentana / 3)*2 - 20, anchuraVentana, alturaVentana / 3 - 20);

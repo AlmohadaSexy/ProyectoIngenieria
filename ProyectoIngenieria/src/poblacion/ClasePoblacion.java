@@ -39,7 +39,7 @@ public class ClasePoblacion {
 	}
 	
 	public void initialize() {
-		JFrame frame = new JFrame();
+		frame = new JFrame("Crecimiento de Poblacion");
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = (screenSize.getWidth())/3;

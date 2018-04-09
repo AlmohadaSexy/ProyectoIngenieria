@@ -5,14 +5,14 @@ import java.awt.Toolkit;
 
 import javax.swing.*;
 
-public class ClasePrincipal {
+public class ClaseSistema {
 
 	private JFrame frame;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClasePrincipal window = new ClasePrincipal();
+					ClaseSistema window = new ClaseSistema();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -25,7 +25,7 @@ public class ClasePrincipal {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClasePrincipal window = new ClasePrincipal();
+					ClaseSistema window = new ClaseSistema();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,12 +34,12 @@ public class ClasePrincipal {
 		});
 	}
 	
-	public ClasePrincipal() {
+	public ClaseSistema() {
 		initialize();
 	}
 	
 	public void initialize() {
-		JFrame frame = new JFrame();
+		frame = new JFrame("Sistema de 3 Ecuaciones");
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = (screenSize.getWidth())/3;
