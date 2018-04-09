@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import EcuacionesConicas.ClaseConicas;
 import poblacion.*;
 import tresEc.*;
 
@@ -77,7 +78,8 @@ public class MenuPrincipal{
 		btn2.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		btn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				frame.dispose();
+				new ClaseConicas().open();
 			}
 		});
 		btn2.setBounds(0, (alturaVentana / 3)*1 - 10, anchuraVentana, alturaVentana / 3 - 20);
