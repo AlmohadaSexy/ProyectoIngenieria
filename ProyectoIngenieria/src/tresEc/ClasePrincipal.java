@@ -9,8 +9,10 @@ public class ClasePrincipal {
 		JFrame ventanaEc = new JFrame();
 		
 		JLabel inicial = new JLabel("Hola");
-
 		
+		JButton botonPrueba = new JButton("Boton1");
+		botonPrueba.setBounds(130,100,100, 40); 
+		ventanaEc.add(botonPrueba);
 		ventanaEc.add(inicial);
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -20,6 +22,8 @@ public class ClasePrincipal {
 		ventanaEc.setSize((int)width, (int)height);
 		ventanaEc.setLocationRelativeTo(null);
 		ventanaEc.setVisible(true);
+		
+		ventanaEc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 }
