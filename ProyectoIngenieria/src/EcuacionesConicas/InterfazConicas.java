@@ -37,7 +37,7 @@ class VentanaConica extends JFrame{
 				
 			}
 		});
-		boton1.setBounds(0, (alto / 3)*0, ancho, alturaVentana / 3 - 20);
+		boton1.setBounds(0, (alto / 3)*0, ancho, alto / 3 - 20);
 		ventanaConica.add(boton1);
 
 	}
