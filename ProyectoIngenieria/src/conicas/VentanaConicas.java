@@ -4,8 +4,12 @@ package conicas;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
+
+import main.MenuPrincipal;
 
 public class VentanaConicas {
 	
@@ -41,7 +45,7 @@ public class VentanaConicas {
 	}
 	
 	private void initialize() {
-		frame = new JFrame ("Ecuaciones Cónicas");
+		frame = new JFrame ("Ecuaciones Cï¿½nicas");
 
 		Dimension tamanoVentana = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = (tamanoVentana.getWidth())/3;
@@ -51,5 +55,15 @@ public class VentanaConicas {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);	
+		
+		JButton boton1 = new JButton();
+		boton1.setBounds(0, 0, 111, 111);
+		boton1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				new MenuPrincipal().open();
+			}
+		});
+		frame.add(boton1);
 	}
 }
