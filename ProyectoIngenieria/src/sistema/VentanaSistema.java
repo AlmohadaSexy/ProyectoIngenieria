@@ -1,18 +1,19 @@
-package tresEc;
+package sistema;
+
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
 import javax.swing.*;
 
-public class ClaseSistema {
+public class VentanaSistema {
 
 	private JFrame frame;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClaseSistema window = new ClaseSistema();
+					VentanaSistema window = new VentanaSistema();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -25,7 +26,7 @@ public class ClaseSistema {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClaseSistema window = new ClaseSistema();
+					VentanaSistema window = new VentanaSistema();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +35,7 @@ public class ClaseSistema {
 		});
 	}
 	
-	public ClaseSistema() {
+	public VentanaSistema() {
 		initialize();
 	}
 	

@@ -10,9 +10,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import EcuacionesConicas.ClaseConicas;
+import conicas.VentanaConicas;
 import poblacion.*;
-import tresEc.*;
+import sistema.*;
 
 public class MenuPrincipal{
 	
@@ -68,7 +68,7 @@ public class MenuPrincipal{
 		btn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				new ClaseSistema().open();
+				new VentanaSistema().open();
 			}
 		});
 		btn1.setBounds(0, (alturaVentana / 3)*0, anchuraVentana, alturaVentana / 3 - 20);
@@ -79,7 +79,7 @@ public class MenuPrincipal{
 		btn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				new ClaseConicas().open();
+				new VentanaConicas().open();
 			}
 		});
 		btn2.setBounds(0, (alturaVentana / 3)*1 - 10, anchuraVentana, alturaVentana / 3 - 20);
@@ -90,7 +90,7 @@ public class MenuPrincipal{
 		btn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				new ClasePoblacion().open();
+				new VentanaPoblacion().open();
 			}
 		});
 		btn3.setBounds(0, (alturaVentana / 3)*2 - 20, anchuraVentana, alturaVentana / 3 - 20);
