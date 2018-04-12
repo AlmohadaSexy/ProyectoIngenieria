@@ -1,8 +1,11 @@
 package poblacion;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
@@ -10,7 +13,7 @@ public class VentanaPoblacion {
 
 	private JFrame frame;
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					VentanaPoblacion window = new VentanaPoblacion();
@@ -28,6 +31,7 @@ public class VentanaPoblacion {
 				try {
 					VentanaPoblacion window = new VentanaPoblacion();
 					window.frame.setVisible(true);
+					//window.frame.pack();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -48,13 +52,11 @@ public class VentanaPoblacion {
 		
 		frame.setSize((int)width, (int)height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		//frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
 		
-		//frame.add(pedirDatos.field1);
-		frame.add(pedirDatos.field2);
-		frame.add(pedirDatos.field3);
-		frame.add(pedirDatos.field4);
 		
+		frame.add(new pedirDatos(), BorderLayout.CENTER);
 	}
+	
 }
