@@ -10,14 +10,15 @@ import java.awt.event.KeyEvent;
 import javax.swing.*;
 
 public class VentanaPoblacion {
-
 	private JFrame frame;
+	
+	
 	public static void main(String[] args) {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaPoblacion window = new VentanaPoblacion();
-					window.frame.setVisible(true);
+					new VentanaPoblacion();
+					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -44,19 +45,53 @@ public class VentanaPoblacion {
 	}
 	
 	public void initialize() {
-		frame = new JFrame("Crecimiento de Poblacion");
+		String[] labels = {"Name: ", "Fax: ", "Email: ", "Address: "};
+        int numPairs = labels.length;
+
+        //Create and populate the panel.
+        JPanel panel = new JPanel(new SpringLayout());
+        for (int i = 0; i < numPairs; i++) {
+            JLabel label = new JLabel(labels[i], JLabel.TRAILING);
+            panel.add(label);
+            JTextField textField = new JTextField(10);
+            label.setLabelFor(textField);
+            panel.add(textField);
+        }
+
+        //Lay out the panel.
+        SpringUtilities.makeCompactGrid(panel,
+                                        numPairs, 2, //rows, cols
+                                        6, 6,        //initX, initY
+                                        6, 6);       //xPad, yPad
+
+        //Create and set up the window.
+        JFrame frame = new JFrame("Crecimiento de la poblacion");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize((int)Variables.width, (int)Variables.height);
+        frame.setLocationRelativeTo(null);
+        
+        //Set up the content pane.
+        panel.setOpaque(true);  //content panes must be opaque
+        frame.setContentPane(panel);
+
+        //Display the window.
+        //frame.pack();
+        frame.setVisible(true);
 		
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		double width = (screenSize.getWidth())/3;
-		double height = (screenSize.getHeight())/2;
 		
-		frame.setSize((int)width, (int)height);
+		/*frame = new JFrame("Crecimiento de Poblacion");
+		String[] labels = {"Name: ", "Fax: ", "Email: ", "Address: "};
+		
+		
+		
+		frame.setSize((int)Variables.width, (int)Variables.height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
 		
 		
 		frame.add(new pedirDatos(), BorderLayout.CENTER);
+		//frame.ADD(frame);*/
 	}
 	
 }
