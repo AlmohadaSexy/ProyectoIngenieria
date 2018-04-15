@@ -98,10 +98,10 @@ public class SpringUtilities {
 
         //Set the parent's size.
         SpringLayout.Constraints pCons = layout.getConstraints(parent);
-        pCons.setConstraint(SpringLayout.SOUTH,
+/*        pCons.setConstraint(SpringLayout.SOUTH,
                             Spring.sum(
                                 Spring.constant(yPad),
-                                lastCons.getConstraint(SpringLayout.SOUTH)));
+                                lastCons.getConstraint(SpringLayout.SOUTH)));*/
         pCons.setConstraint(SpringLayout.EAST,
                             Spring.sum(
                                 Spring.constant(xPad),
@@ -183,7 +183,11 @@ public class SpringUtilities {
 
         //Set the parent's size.
         SpringLayout.Constraints pCons = layout.getConstraints(parent);
-        pCons.setConstraint(SpringLayout.SOUTH, y);
+        
+        //Descomentar esto para que todos los TextFields Se hagan resize al hacer mas grande la ventana
+        //pCons.setConstraint(SpringLayout.SOUTH, y);
+        
+        
         pCons.setConstraint(SpringLayout.EAST, x);
     }
 }
