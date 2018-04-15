@@ -5,6 +5,9 @@ import java.awt.Toolkit;
 
 public class Variables {
 	static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	public static double width = (screenSize.getWidth())/2;
-	public static double height = (screenSize.getHeight())/2;
+	public static int width =  (int) ((screenSize.getWidth())/2);
+	public static int height =  (int) ((screenSize.getHeight())/2);
+	
+	public static int contOperaciones = 1;
 }
+                                                                                                                                                                                                                                                                                                                                           

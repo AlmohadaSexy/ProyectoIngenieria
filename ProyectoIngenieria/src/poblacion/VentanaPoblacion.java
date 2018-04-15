@@ -1,129 +1,108 @@
 package poblacion;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-
 import javax.swing.*;
 
 import main.MenuPrincipal;
 
-public class VentanaPoblacion {
-	public static JFrame framePoblacion;
-	
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaPoblacion window = new VentanaPoblacion();
-//					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	public void open() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-//					VentanaPoblacion window = new VentanaPoblacion();
-					VentanaPoblacion.framePoblacion.setVisible(true);
-//					window.frame.pack();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	
-	public VentanaPoblacion() {
-		initialize();
-	}
-	
-	public void initialize() {
-		
-		pedirDatos panel = new pedirDatos();
-		
-		BorderLayout layout = new BorderLayout();
-		BoxLayout layout2 = new BoxLayout(framePoblacion, 0);
-//		Create and set up the window.
-        framePoblacion = new JFrame("Crecimiento de la poblacion");
-        framePoblacion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        framePoblacion.setSize((int)Variables.width, (int)Variables.height);
-        framePoblacion.setLocationRelativeTo(null);
-//		framePoblacion.setLayout(layout);
-//		panel.setBounds(0, 0, (int)Variables.width, (int)Variables.height*2/3);
-//      panel.setLayout(layout);
-        
-//		Set up the content pane.
-//		panel.setOpaque(true);  //content panes must be opaque
-//      panel.setBounds(0, 0, (int)Variables.width, (int)Variables.height*2/3);
-        framePoblacion.setContentPane(panel);
+import java.awt.*;
+import java.awt.event.*;
 
-        JPanel panel2 = new JPanel();
-        panel2.setLayout(layout);
+public class VentanaPoblacion extends JFrame {
+
+    GridBagLayout gbl;
+    GridBagConstraints gbc;
+    pedirDatos upperPanel;
+    JPanel downRightPanel, downLeftPanel, downCenterPanel;
+    public static JTabbedPane panelTab;
+
+    
+    
+    
+	
+	
+	
+	
+	
+	
+    public VentanaPoblacion() {
+        this.setTitle("Ventana de Poblacion");
+    	this.setSize(Variables.width, Variables.height);
+        this.setResizable(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+        this.getContentPane().setBackground(Color.BLACK);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
         
-        JButton boton = new JButton("Back");
-//		framePoblacion.add(boton);
-//		boton.setBounds(50, 50, 500, 5);
-		boton.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		boton.addActionListener(new ActionListener() {
+        // Setting Frame Layout
+        gbl = new GridBagLayout();
+        gbl.columnWidths = new int[] {200/3};
+        gbl.rowHeights = new int[] {Variables.height - 100};
+        gbl.columnWeights = new double[] {1};
+        gbl.rowWeights = new double[] {1};
+        
+        gbc = new GridBagConstraints();
+        this.setLayout(gbl);
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+
+        // Add Panels
+        
+        upperPanel = new pedirDatos();
+        
+    	this.addPanels(0, 0, 1, 3, upperPanel); // row, col, height, width, component
+        
+        downRightPanel = new JPanel();
+        downRightPanel.setLayout(new BorderLayout());
+        this.addPanels(1, 2, 1, 1, downRightPanel); // row, col, height, width, component
+        
+        downCenterPanel = new JPanel();
+        downCenterPanel.setLayout(new BorderLayout());
+        this.addPanels(1, 1, 1, 1, downCenterPanel); // row, col, height, width, component
+        
+        downLeftPanel = new JPanel();
+        downLeftPanel.setLayout(new BorderLayout());
+        this.addPanels(1, 0, 1, 1, downLeftPanel); // row, col, height, width, component
+        
+        
+        JButton botonAtras = new JButton("Atras");
+        botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 26));
+        botonAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaPoblacion.framePoblacion.dispose();
-				new MenuPrincipal().open();
+				mainPoblacion.close();
 			}
 		});
-		panel2.add(boton, BorderLayout.PAGE_END);
-		
-		
-		framePoblacion.add(panel2, BorderLayout.PAGE_END);
-		
-		
-		
-///*
-		JButton boton2 = new JButton("Back2");
-        framePoblacion.add(boton2);
-		boton2.setBounds(50, 50, 5, 5);
-		boton2.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		boton2.addActionListener(new ActionListener() {
+		downRightPanel.add(botonAtras, BorderLayout.CENTER);
+        
+		JButton botonSubmit = new JButton("Submit");
+		botonSubmit.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		botonSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaPoblacion.framePoblacion.dispose();
-				new MenuPrincipal().open();
+				Operaciones.addTab();
+				panelTab.setSelectedIndex(Variables.contOperaciones);
+				Variables.contOperaciones++;
 			}
 		});
+		downLeftPanel.add(botonSubmit, BorderLayout.CENTER);
 		
-		panel2.add(boton2, BorderLayout.PAGE_START);
-//*/
-	
-//		Display the window.
-//		framePoblacion.pack();
-        framePoblacion.setVisible(true);
-        
-		
-/*		frame = new JFrame("Crecimiento de Poblacion");
-		String[] labels = {"Name: ", "Fax: ", "Email: ", "Address: "};
-		
-		
-		
-		frame.setSize((int)Variables.width, (int)Variables.height);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.getContentPane().setLayout(null);
-		frame.setLocationRelativeTo(null);
-		
-		
-		frame.add(new pedirDatos(), BorderLayout.CENTER);
-		//frame.ADD(frame);
-*/
-	}
-	
+		JButton botonClear = new JButton("Clear");
+		botonClear.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		botonClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainPoblacion.close();
+			}
+		});
+		downCenterPanel.add(botonClear, BorderLayout.CENTER);
+    }
+
+    private void addPanels(int row, int col, int height, int width, Component com) {
+        gbc.gridx = col;
+        gbc.gridy = row;
+        gbc.gridheight = height;
+        gbc.gridwidth = width;
+        gbl.setConstraints(com, gbc);
+        this.getContentPane().add(com);
+    }
 }

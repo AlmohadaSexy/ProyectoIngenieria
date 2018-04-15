@@ -1,11 +1,7 @@
 package poblacion;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
 
@@ -16,14 +12,14 @@ import sistema.VentanaSistema;
 public class pedirDatos extends JPanel{
 	private static final long serialVersionUID = 1L;
 
-	public static JTabbedPane tabbedPanePoblacion;
+	
 	
 	public pedirDatos() {
 		super(new GridLayout(1, 1));
 		
-		tabbedPanePoblacion = new JTabbedPane();
+		VentanaPoblacion.panelTab = new JTabbedPane();
 		
-		String[] labels = {"Name: ", "Fax: ", "Email: ", "Address: "};
+		String[] labels = {"k: ", "\u03B1: ", "\u03B2: ", "Address: "};
         int numPairs = labels.length;
         
         //Create and populate the panel.
@@ -45,13 +41,13 @@ public class pedirDatos extends JPanel{
                                  		6, 6,        //initX, initY
                                  		10, 10);       //xPad, yPad
 		
-		tabbedPanePoblacion.addTab("Datos", panel1);
+        VentanaPoblacion.panelTab.addTab("Datos", panel1);
 		
-		tabbedPanePoblacion.setMnemonicAt(0, KeyEvent.VK_1);
+        VentanaPoblacion.panelTab.setMnemonicAt(0, KeyEvent.VK_1);
 		
-		add(tabbedPanePoblacion);
-		tabbedPanePoblacion.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-	}
+		add(VentanaPoblacion.panelTab);
+		VentanaPoblacion.panelTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+}
 	
 }
 

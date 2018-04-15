@@ -90,7 +90,7 @@ public class MenuPrincipal{
 		btn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				new VentanaPoblacion().open();
+				new mainPoblacion().open();
 			}
 		});
 		btn3.setBounds(0, (alturaVentana / 3)*2 - 20, anchuraVentana, alturaVentana / 3 - 20);
