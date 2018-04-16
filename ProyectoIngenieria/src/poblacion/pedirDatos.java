@@ -5,14 +5,12 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import main.MenuPrincipal;
-import sistema.VentanaSistema;
 
 
 public class pedirDatos extends JPanel{
 	private static final long serialVersionUID = 1L;
 	JLabel labelK, labelA, labelB, labelPJ, labelPA;
-	public static JTextField textFieldK, textFieldA, textFieldB, textFieldPJ, textFieldPA;
+	public static JTextField textFieldK, textFieldA, textFieldB, textFieldPJ, textFieldPA, textFieldNombre;
 	
 	
 	public pedirDatos() {
@@ -66,10 +64,18 @@ public class pedirDatos extends JPanel{
 		labelPA.setLabelFor(textFieldPA);
 		panel1.add(textFieldPA);
 		
+		JLabel labelNombre = new JLabel("Nombre: ", JLabel.TRAILING);
+		labelNombre.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		panel1.add(labelNombre);
+		textFieldNombre = new JTextField(10);
+		textFieldNombre.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		labelNombre.setLabelFor(textFieldNombre);
+		panel1.add(textFieldNombre);
+		
 
 		//Lay out the panel.
 		SpringUtilities.makeCompactGrid(panel1,
-										5, 2, //rows, cols
+										6, 2, //rows, cols
 										6, 6,        //initX, initY
 										10, 10);       //xPad, yPad
 		

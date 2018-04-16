@@ -1,12 +1,10 @@
 package poblacion;
 
 import javax.swing.*;
-
-import main.MenuPrincipal;
-
 import java.awt.*;
 import java.awt.event.*;
 
+@SuppressWarnings("serial")
 public class VentanaPoblacion extends JFrame {
 
 	GridBagLayout gbl;
@@ -15,7 +13,8 @@ public class VentanaPoblacion extends JFrame {
 	JPanel downRightPanel, downLeftPanel, downCenterPanel;
 	public static JTabbedPane panelTab;
 	static boolean doubleJustSeemsGood;
-	
+	double k, A, B;
+	int anos, PA, PJ;
 	public VentanaPoblacion() {
     	this.setTitle("Ventana de Poblacion");
     	this.setSize(Variables.width, Variables.height);
@@ -74,32 +73,26 @@ public class VentanaPoblacion extends JFrame {
     	botonSubmit.setFont(new Font("Tahoma", Font.PLAIN, 26));
     	botonSubmit.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			
     			try	{
-    				double k = Double.parseDouble(pedirDatos.textFieldK.getText());
-    				double A = Double.parseDouble(pedirDatos.textFieldA.getText());
-    				double B = Double.parseDouble(pedirDatos.textFieldB.getText());
-    				double PA = Double.parseDouble(pedirDatos.textFieldPA.getText());
-    				double PJ = Double.parseDouble(pedirDatos.textFieldPJ.getText());	
+    				k = Double.parseDouble(pedirDatos.textFieldK.getText());
+    				A = Double.parseDouble(pedirDatos.textFieldA.getText());
+    				B = Double.parseDouble(pedirDatos.textFieldB.getText());
+    				PA = Integer.parseInt(pedirDatos.textFieldPA.getText());
+    				PJ = Integer.parseInt(pedirDatos.textFieldPJ.getText());	
     				doubleJustSeemsGood = true;
     			} catch(Exception ee) {
     				JOptionPane.showMessageDialog(null, "No se puede convertir a Double");
     				doubleJustSeemsGood = false;
     			}
     			if(doubleJustSeemsGood && panelTab.getSelectedIndex() == 0) {
-    				Operaciones.addTab();
-        			panelTab.setSelectedIndex(Variables.contOperaciones);
-        			Variables.contOperaciones++;
-        			double k = Double.parseDouble(pedirDatos.textFieldK.getText());
-    				double A = Double.parseDouble(pedirDatos.textFieldA.getText());
-    				double B = Double.parseDouble(pedirDatos.textFieldB.getText());
-    				double PJ = Double.parseDouble(pedirDatos.textFieldPJ.getText());
-    				double PA = Double.parseDouble(pedirDatos.textFieldPA.getText());
+    				
         			Operaciones.matrizConstante(k, A, B);
-        			System.out.println(Operaciones.matrizConstanteString());
         			Operaciones.matrizFin(PJ, PA);
         			System.out.println(Operaciones.matrizFinString());
         			Operaciones.iteraciones();
+        			Operaciones.addTab();
+        			panelTab.setSelectedIndex(Variables.contOperaciones);
+        			Variables.contOperaciones++;
     			}
     		}
     	});
@@ -115,6 +108,7 @@ public class VentanaPoblacion extends JFrame {
         			pedirDatos.textFieldB.setText("");
         			pedirDatos.textFieldPA.setText("");
         			pedirDatos.textFieldPJ.setText("");
+        			pedirDatos.textFieldNombre.setText("");
     			} else {
     				JOptionPane.showMessageDialog(null, "Vaya a la pestaña de Datos para borrarlo todo");
     			}
