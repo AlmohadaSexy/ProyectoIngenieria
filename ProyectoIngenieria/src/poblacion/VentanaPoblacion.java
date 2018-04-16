@@ -81,7 +81,11 @@ public class VentanaPoblacion extends JFrame {
     	botonClear.setFont(new Font("Tahoma", Font.PLAIN, 26));
     	botonClear.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			mainPoblacion.close();
+    			pedirDatos.textFieldK.setText("");
+    			pedirDatos.textFieldA.setText("");
+    			pedirDatos.textFieldB.setText("");
+    			pedirDatos.textFieldPA.setText("");
+    			pedirDatos.textFieldPJ.setText("");
     		}
     	});
     	downCenterPanel.add(botonClear, BorderLayout.CENTER);

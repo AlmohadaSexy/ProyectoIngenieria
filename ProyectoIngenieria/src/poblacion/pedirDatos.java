@@ -11,7 +11,8 @@ import sistema.VentanaSistema;
 
 public class pedirDatos extends JPanel{
 	private static final long serialVersionUID = 1L;
-
+	JLabel labelK, labelA, labelB, labelPJ, labelPA;
+	public static JTextField textFieldK, textFieldA, textFieldB, textFieldPJ, textFieldPA;
 	
 	
 	public pedirDatos() {
@@ -28,7 +29,7 @@ public class pedirDatos extends JPanel{
 		JLabel labelK = new JLabel("k: ", JLabel.TRAILING);
 		labelK.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		panel1.add(labelK);
-		JTextField textFieldK = new JTextField(10);
+		textFieldK = new JTextField(10);
 		textFieldK.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		labelK.setLabelFor(textFieldK);
 		panel1.add(textFieldK);
@@ -36,7 +37,7 @@ public class pedirDatos extends JPanel{
 		JLabel labelA = new JLabel("\u03B1: ", JLabel.TRAILING);
 		labelA.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		panel1.add(labelA);
-		JTextField textFieldA = new JTextField(10);
+		textFieldA = new JTextField(10);
 		textFieldA.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		labelA.setLabelFor(textFieldA);
 		panel1.add(textFieldA);
@@ -44,7 +45,7 @@ public class pedirDatos extends JPanel{
 		JLabel labelB = new JLabel("\u03B2: ", JLabel.TRAILING);
 		labelB.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		panel1.add(labelB);
-		JTextField textFieldB = new JTextField(10);
+		textFieldB = new JTextField(10);
 		textFieldB.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		labelB.setLabelFor(textFieldB);
 		panel1.add(textFieldB);
@@ -52,7 +53,7 @@ public class pedirDatos extends JPanel{
 		JLabel labelPJ = new JLabel("Pj: ", JLabel.TRAILING);
 		labelPJ.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		panel1.add(labelPJ);
-		JTextField textFieldPJ = new JTextField(10);
+		textFieldPJ = new JTextField(10);
 		textFieldPJ.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		labelPJ.setLabelFor(textFieldPJ);
 		panel1.add(textFieldPJ);
@@ -60,7 +61,7 @@ public class pedirDatos extends JPanel{
 		JLabel labelPA = new JLabel("Pa: ", JLabel.TRAILING);
 		labelPA.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		panel1.add(labelPA);
-		JTextField textFieldPA = new JTextField(10);
+		textFieldPA = new JTextField(10);
 		textFieldPA.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		labelPA.setLabelFor(textFieldPA);
 		panel1.add(textFieldPA);
