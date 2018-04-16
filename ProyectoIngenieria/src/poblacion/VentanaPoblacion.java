@@ -14,7 +14,8 @@ public class VentanaPoblacion extends JFrame {
 	pedirDatos upperPanel;
 	JPanel downRightPanel, downLeftPanel, downCenterPanel;
 	public static JTabbedPane panelTab;
-
+	static boolean doubleJustSeemsGood;
+	
 	public VentanaPoblacion() {
     	this.setTitle("Ventana de Poblacion");
     	this.setSize(Variables.width, Variables.height);
@@ -45,14 +46,17 @@ public class VentanaPoblacion extends JFrame {
     	this.addPanels(0, 0, 1, 3, upperPanel); // row, col, height, width, component
         
     	downRightPanel = new JPanel();
+    	downRightPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
     	downRightPanel.setLayout(new BorderLayout());
     	this.addPanels(1, 2, 1, 1, downRightPanel); // row, col, height, width, component
         
     	downCenterPanel = new JPanel();
+    	downCenterPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
     	downCenterPanel.setLayout(new BorderLayout());
     	this.addPanels(1, 1, 1, 1, downCenterPanel); // row, col, height, width, component
         
     	downLeftPanel = new JPanel();
+    	downLeftPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
     	downLeftPanel.setLayout(new BorderLayout());
     	this.addPanels(1, 0, 1, 1, downLeftPanel); // row, col, height, width, component
         
@@ -70,9 +74,33 @@ public class VentanaPoblacion extends JFrame {
     	botonSubmit.setFont(new Font("Tahoma", Font.PLAIN, 26));
     	botonSubmit.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			Operaciones.addTab();
-    			panelTab.setSelectedIndex(Variables.contOperaciones);
-    			Variables.contOperaciones++;
+    			
+    			try	{
+    				double k = Double.parseDouble(pedirDatos.textFieldK.getText());
+    				double A = Double.parseDouble(pedirDatos.textFieldA.getText());
+    				double B = Double.parseDouble(pedirDatos.textFieldB.getText());
+    				double PA = Double.parseDouble(pedirDatos.textFieldPA.getText());
+    				double PJ = Double.parseDouble(pedirDatos.textFieldPJ.getText());	
+    				doubleJustSeemsGood = true;
+    			} catch(Exception ee) {
+    				JOptionPane.showMessageDialog(null, "No se puede convertir a Double");
+    				doubleJustSeemsGood = false;
+    			}
+    			if(doubleJustSeemsGood && panelTab.getSelectedIndex() == 0) {
+    				Operaciones.addTab();
+        			panelTab.setSelectedIndex(Variables.contOperaciones);
+        			Variables.contOperaciones++;
+        			double k = Double.parseDouble(pedirDatos.textFieldK.getText());
+    				double A = Double.parseDouble(pedirDatos.textFieldA.getText());
+    				double B = Double.parseDouble(pedirDatos.textFieldB.getText());
+    				double PJ = Double.parseDouble(pedirDatos.textFieldPJ.getText());
+    				double PA = Double.parseDouble(pedirDatos.textFieldPA.getText());
+        			Operaciones.matrizConstante(k, A, B);
+        			System.out.println(Operaciones.matrizConstanteString());
+        			Operaciones.matrizFin(PJ, PA);
+        			System.out.println(Operaciones.matrizFinString());
+        			Operaciones.iteraciones();
+    			}
     		}
     	});
     	downLeftPanel.add(botonSubmit, BorderLayout.CENTER);
@@ -81,11 +109,15 @@ public class VentanaPoblacion extends JFrame {
     	botonClear.setFont(new Font("Tahoma", Font.PLAIN, 26));
     	botonClear.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			pedirDatos.textFieldK.setText("");
-    			pedirDatos.textFieldA.setText("");
-    			pedirDatos.textFieldB.setText("");
-    			pedirDatos.textFieldPA.setText("");
-    			pedirDatos.textFieldPJ.setText("");
+    			if(panelTab.getSelectedIndex() == 0) {
+    				pedirDatos.textFieldK.setText("");
+    				pedirDatos.textFieldA.setText("");
+        			pedirDatos.textFieldB.setText("");
+        			pedirDatos.textFieldPA.setText("");
+        			pedirDatos.textFieldPJ.setText("");
+    			} else {
+    				JOptionPane.showMessageDialog(null, "Vaya a la pestaña de Datos para borrarlo todo");
+    			}
     		}
     	});
     	downCenterPanel.add(botonClear, BorderLayout.CENTER);

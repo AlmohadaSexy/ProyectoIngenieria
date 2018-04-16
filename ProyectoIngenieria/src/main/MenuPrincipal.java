@@ -65,6 +65,7 @@ public class MenuPrincipal{
 		
 		JButton btn1 = new JButton("Sistemas de Ecuaciones");
 		btn1.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		btn1.setToolTipText("Resuelve un sistema de 3 ecuaciones con 3 incognitas.");
 		btn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -76,6 +77,7 @@ public class MenuPrincipal{
 		
 		JButton btn2 = new JButton("Ecuaciones Conicas");
 		btn2.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		btn2.setToolTipText("Resolucion y representacion grafica de ecuaciones conicas.");
 		btn2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -87,6 +89,7 @@ public class MenuPrincipal{
 		
 		JButton btn3 = new JButton("Crecimiento de Poblaciones");
 		btn3.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		btn3.setToolTipText("Calcular el crecimiento de una poblacion en x años.");
 		btn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
