@@ -72,7 +72,7 @@ public class VentanaSistema extends JPanel{
 		JTabbedPane tabbedPane = new JTabbedPane();
         
         
-        JPanel panelPestana = new JPanel(); // Panel dentro de las tab
+        JPanel panelPestana = new JPanel(); // Panel dentro de la tab
         JPanel panelGeneral = new JPanel(); // Panel dentro del frame principal
         
 		tabbedPane.addTab("Enunciado", panelPestana); // Se crea una nueva tab y se agrega el panel de esta
