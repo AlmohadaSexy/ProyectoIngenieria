@@ -3,6 +3,7 @@ package poblacion;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class VentanaPoblacion extends JFrame {
@@ -15,6 +16,7 @@ public class VentanaPoblacion extends JFrame {
 	static boolean doubleJustSeemsGood;
 	double k, A, B;
 	int anos, PA, PJ;
+	
 	public VentanaPoblacion() {
     	this.setTitle("Ventana de Poblacion");
     	this.setSize(Variables.width, Variables.height);
@@ -79,6 +81,7 @@ public class VentanaPoblacion extends JFrame {
     				B = Double.parseDouble(pedirDatos.textFieldB.getText());
     				PA = Integer.parseInt(pedirDatos.textFieldPA.getText());
     				PJ = Integer.parseInt(pedirDatos.textFieldPJ.getText());	
+    				Operaciones.Nombre = String.valueOf(pedirDatos.textFieldNombre.getText());
     				doubleJustSeemsGood = true;
     			} catch(Exception ee) {
     				JOptionPane.showMessageDialog(null, "No se puede convertir a Double");
@@ -88,11 +91,16 @@ public class VentanaPoblacion extends JFrame {
     				
         			Operaciones.matrizConstante(k, A, B);
         			Operaciones.matrizFin(PJ, PA);
-        			System.out.println(Operaciones.matrizFinString());
         			Operaciones.iteraciones();
-        			Operaciones.addTab();
+        			try {
+						Operaciones.addTab();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
         			panelTab.setSelectedIndex(Variables.contOperaciones);
         			Variables.contOperaciones++;
+    			} else if (panelTab.getSelectedIndex() != 0){
+    				JOptionPane.showMessageDialog(null, "Vaya a la primera TAB para poder calcular el resultado");
     			}
     		}
     	});

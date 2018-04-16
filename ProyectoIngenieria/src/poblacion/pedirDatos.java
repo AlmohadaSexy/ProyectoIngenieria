@@ -48,7 +48,7 @@ public class pedirDatos extends JPanel{
 		labelB.setLabelFor(textFieldB);
 		panel1.add(textFieldB);
 		
-		JLabel labelPJ = new JLabel("Pj: ", JLabel.TRAILING);
+		JLabel labelPJ = new JLabel("Poblacion Joven: ", JLabel.TRAILING);
 		labelPJ.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		panel1.add(labelPJ);
 		textFieldPJ = new JTextField(10);
@@ -56,7 +56,7 @@ public class pedirDatos extends JPanel{
 		labelPJ.setLabelFor(textFieldPJ);
 		panel1.add(textFieldPJ);
 		
-		JLabel labelPA = new JLabel("Pa: ", JLabel.TRAILING);
+		JLabel labelPA = new JLabel("Poblacion Adulta: ", JLabel.TRAILING);
 		labelPA.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		panel1.add(labelPA);
 		textFieldPA = new JTextField(10);
