@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 public class Operaciones {
 	public static JPanel panel;
+	
 	public Operaciones() {
 		
 	}
@@ -15,6 +16,4 @@ public class Operaciones {
 		VentanaPoblacion.panelTab.addTab("Operaciones " + Variables.contOperaciones, panel);
 		VentanaPoblacion.panelTab.setMnemonicAt(Variables.contOperaciones, KeyEvent.VK_1);
 	}
-	
-	
 }
