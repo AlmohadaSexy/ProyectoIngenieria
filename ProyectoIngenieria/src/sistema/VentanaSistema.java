@@ -71,7 +71,7 @@ public class VentanaSistema extends JPanel{
 		
 		frame.setSize((int)width, (int)height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null);
+		
 		
 		
 		
@@ -203,6 +203,7 @@ public class VentanaSistema extends JPanel{
 		frame.add(panelInferiorGeneral, BorderLayout.SOUTH);
         frame.add(panelGeneral, BorderLayout.WEST); // Se agrega el panel general al conjunto entero, el frame
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         
 
