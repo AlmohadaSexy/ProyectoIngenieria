@@ -51,6 +51,67 @@ public class VentanaSistema extends JPanel{
 		initialize();
 	}
 		
+	
+	
+	public String tipoDeSistema(int m1, int m2, int m3, int m4, int m5, int m6, int m7, int m8, int m9, int b1, int b2, int b3) {
+		
+		// Calculamos el rango de la matriz de coeficientes
+		int n = 3; // Num de incognitas
+		int rga = 1; // Asumimos que siempre habra algun valor distinto de 0
+		int deta1 = (m5 * m1) - (m4 * m2);
+		int deta2 = ((m9*m5*m1)+(m4*m8*m3)+(m2*m6*m7))-((m7*m5*m3)+(m4*m2*m9)+(m8*m6*m1));
+		
+		
+		if(m1==0 && m4==0 && m7==0) {
+			n -= 1;
+		} if(m2==0 && m5==0 && m8==0) {
+			n-=1;
+		} if(m3==0 && m6==0 && m9==0) {
+			n -= 1;
+		}
+		
+		
+		
+		if(deta1!=0 ) {
+			rga = 2;
+			if(deta2 != 0) {
+				rga = 3;
+			}
+		}
+		
+		// Calculamos el rango de la matriz ampliada
+		
+		int rgamp = 1;
+		int detamp1 = (m5 * m1) - (m4 * m2), detamp2 = (b3*m6) - (m9*b2), detamp5 = (b2*m2)-(m5*b1);
+		int detamp3 = ((m9*m5*m1)+(m4*m8*m3)+(m2*m6*m7))-((m7*m5*m3)+(m4*m2*m9)+(m8*m6*m1));
+		int detamp4 = ((b3*m6*m2)+(m5*m9*b1)+(m3*b2*m8))-((m8*m6*b1)+(m5*m3*b3)+(m9*b2*m2));
+		
+		if(detamp1 != 0 || detamp2 != 0 || detamp5 != 0) {
+			rgamp = 2;
+			if(detamp3 != 0 && detamp4 != 0) {
+				rgamp = 3;
+			}
+		}
+		
+		
+		// Comparacion de rangos entre matriz de coeficientes y ampliada para ver de que tipo se trata
+
+		System.out.println("Rango matriz coeficientes:"+rga+"\nRango matriz ampliada: "+rgamp); // Se imprimen los rangos como comprobacion
+		if (rga == rgamp) {
+			if(rga == n) {
+				return "Se trata de un Sistema Compatible Determinado.";
+			} else {
+				return "Se trata de un Sistema Compatible Indeterminado.";
+			}			
+		} else {
+			return "Se trata de un Sistema Incompatible. No tiene soluciones.";
+		}
+		
+		
+		
+	}
+	
+
 	public void initialize() {
 		
 		/***
@@ -114,10 +175,7 @@ public class VentanaSistema extends JPanel{
 
          
         
-       
-        
-       
-        
+
     	
 		/***
 		 * 
@@ -139,18 +197,11 @@ public class VentanaSistema extends JPanel{
 		
 		
 		
-		JButton botonResolver = new JButton("Resolver");
-		botonResolver.setBounds(0, 0, 888, 888);
-		botonResolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 tabbedPane.addTab("Resolucion", panelPestana2);
-				 tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
-				 tabbedPane.setSelectedIndex(1);
-			}
-		});
 		
 		
-		JLabel intro = new JLabel("Por favor introduce las variables del sistema de ecuaciones en los siguientes campos:");
+		
+		JLabel intro = new JLabel(
+				"<html><p>Por favor introduce las variables<br> del sistema de ecuaciones<br> en los siguientes campos:</p></html>");
 		
 		panelPestana1.add(intro);
 	
@@ -175,7 +226,24 @@ public class VentanaSistema extends JPanel{
 		panelPestana1.setOpaque(true);
 		panelPestana1.add(scrollPane);
 		
-		
+		JButton botonResolver = new JButton("Resolver");
+		botonResolver.setBounds(0, 0, 888, 888);
+		botonResolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 tabbedPane.addTab("Resolucion", panelPestana2);
+				 tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
+				 tabbedPane.setSelectedIndex(1);
+				 JLabel tipoSistema = new JLabel(tipoDeSistema(Integer.valueOf((String)table.getValueAt(0, 0)), 
+						 	Integer.valueOf((String)table.getValueAt(0, 1)), 
+							Integer.valueOf((String)table.getValueAt(0, 2)), Integer.valueOf((String)table.getValueAt(1, 0)), 
+							Integer.valueOf((String)table.getValueAt(1, 1)), Integer.valueOf((String)table.getValueAt(1, 2)), 
+							Integer.valueOf((String)table.getValueAt(2, 0)), Integer.valueOf((String)table.getValueAt(2, 1)), 
+							Integer.valueOf((String)table.getValueAt(2, 2)), Integer.valueOf((String)table.getValueAt(0, 3)), 
+							Integer.valueOf((String)table.getValueAt(1, 3)), Integer.valueOf((String)table.getValueAt(2, 3))));
+				 panelPestana2.add(tipoSistema);
+				
+			}
+		});
 		
 		JButton botonLimpiar = new JButton("Limpiar");
 		botonLimpiar.setBounds(0, 0, 888, 888);
@@ -185,18 +253,24 @@ public class VentanaSistema extends JPanel{
 				      for(int j = 0; j < table.getColumnCount(); j++) {
 				          table.setValueAt("", i, j);
 				      }
-				   
-				
-				//DefaultTableModel model = new DefaultTableModel(numFilas, colHeadings.length);
-				//table.setModel(model);
 			}
 		});
 		
+
 		
+		/***
+		 * 
+		 * 
+		 * ORDENACION GENERAL DE COMPONENTES
+		 * 
+		 * 
+		 */
 		
 		
 		panelPestana1.add(botonResolver);
 		panelPestana1.add(botonLimpiar);
+
+		
 		panelInferiorGeneral.add(botonVolver);
 		panelGeneral.add(tabbedPane); // Se agrega al panel principal
 		
