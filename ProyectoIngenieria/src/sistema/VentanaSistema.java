@@ -102,7 +102,7 @@ public class VentanaSistema extends JPanel{
 		/***
 		 * 
 		 * 
-		 * CREACION DE TABS
+		 * CREACION DE LA PRIMERA TAB DEL SISTEMA
 		 * 
 		 * 
 		 */
@@ -114,8 +114,8 @@ public class VentanaSistema extends JPanel{
 
          
         
-        tabbedPane.addTab("Resolucion", panelPestana2);
-        tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
+       
+        
        
         
     	
@@ -136,6 +136,19 @@ public class VentanaSistema extends JPanel{
 				new MenuPrincipal().open();
 			}
 		});
+		
+		
+		
+		JButton botonResolver = new JButton("Resolver");
+		botonResolver.setBounds(0, 0, 888, 888);
+		botonResolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 tabbedPane.addTab("Resolucion", panelPestana2);
+				 tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
+				 tabbedPane.setSelectedIndex(1);
+			}
+		});
+		
 		
 		JLabel intro = new JLabel("Por favor introduce las variables del sistema de ecuaciones en los siguientes campos:");
 		
@@ -164,9 +177,26 @@ public class VentanaSistema extends JPanel{
 		
 		
 		
+		JButton botonLimpiar = new JButton("Limpiar");
+		botonLimpiar.setBounds(0, 0, 888, 888);
+		botonLimpiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < table.getRowCount(); i++)
+				      for(int j = 0; j < table.getColumnCount(); j++) {
+				          table.setValueAt("", i, j);
+				      }
+				   
+				
+				//DefaultTableModel model = new DefaultTableModel(numFilas, colHeadings.length);
+				//table.setModel(model);
+			}
+		});
 		
 		
 		
+		
+		panelPestana1.add(botonResolver);
+		panelPestana1.add(botonLimpiar);
 		panelInferiorGeneral.add(botonVolver);
 		panelGeneral.add(tabbedPane); // Se agrega al panel principal
 		
