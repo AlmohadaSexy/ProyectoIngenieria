@@ -233,6 +233,7 @@ public class VentanaSistema extends JPanel{
 				 tabbedPane.addTab("Resolucion", panelPestana2);
 				 tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 				 tabbedPane.setSelectedIndex(1);
+				 panelPestana2.removeAll(); // Para limpiar el panel y poder hacer nuevos sistemas sin cerrar la ventana
 				 JLabel tipoSistema = new JLabel(tipoDeSistema(Integer.valueOf((String)table.getValueAt(0, 0)), 
 						 	Integer.valueOf((String)table.getValueAt(0, 1)), 
 							Integer.valueOf((String)table.getValueAt(0, 2)), Integer.valueOf((String)table.getValueAt(1, 0)), 
@@ -241,7 +242,6 @@ public class VentanaSistema extends JPanel{
 							Integer.valueOf((String)table.getValueAt(2, 2)), Integer.valueOf((String)table.getValueAt(0, 3)), 
 							Integer.valueOf((String)table.getValueAt(1, 3)), Integer.valueOf((String)table.getValueAt(2, 3))));
 				 panelPestana2.add(tipoSistema);
-				
 			}
 		});
 		
