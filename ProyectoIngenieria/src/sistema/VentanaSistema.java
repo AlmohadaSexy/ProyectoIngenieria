@@ -102,6 +102,7 @@ public class VentanaSistema extends JPanel{
 			if(rga == n) {
 				return "Se trata de un Sistema Compatible Determinado.";
 			} else {
+				sistema = false;
 				return "Se trata de un Sistema Compatible Indeterminado.";
 			}			
 		} else {
@@ -128,7 +129,7 @@ public class VentanaSistema extends JPanel{
 			JLabel resultado = new JLabel("Los resultado del sistema son; X:"+resultx+" Y:"+resulty+" Z:"+resultz);
 			panelPestana2.add(resultado);
 		} else {
-			JLabel prueba = new JLabel ("Prueba con un sistema que tenga soluciones.");
+			JLabel prueba = new JLabel ("Prueba con un sistema que tenga una unica solucion existente.");
 			panelPestana2.add(prueba);
 		}
 		
@@ -174,7 +175,6 @@ public class VentanaSistema extends JPanel{
         
         
         JPanel panelPestana1 = new JPanel(); // Panel dentro de la tab
-        //JPanel panelPestana2 = new JPanel();
         
         JPanel panelGeneral = new JPanel(); // Panel dentro del frame principal
         
@@ -240,10 +240,7 @@ public class VentanaSistema extends JPanel{
 		JTable table = new JTable(model);
 		
 		JScrollPane scrollPane = new JScrollPane(table);
-		table.getTableHeader().setReorderingAllowed(false);
-		//scrollPane.setViewportView(table);
-		//table.setFillsViewportHeight(true);
-		
+		table.getTableHeader().setReorderingAllowed(false);		
 		
 		
 		panelPestana1.setOpaque(true);
@@ -310,7 +307,6 @@ public class VentanaSistema extends JPanel{
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         
-
 
 	}
 }
