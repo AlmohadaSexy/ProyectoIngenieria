@@ -1,8 +1,10 @@
 package conicas;
 
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,14 +58,15 @@ public class VentanaConicas {
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);	
 		
-		JButton boton1 = new JButton();
-		boton1.setBounds(0, 0, 111, 111);
-		boton1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				new MenuPrincipal().open();
-			}
-		});
-		frame.add(boton1);
+		// Panel con FlowLayout que empieza a alinear componentes por la derecha.
+	    JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+	    panel2.add(new JButton("el boton"));
+
+	    // El JFrame tiene un BorderLayout, colocamos el panel en el Sur (parte inferior).
+	    frame.getContentPane().add(panel2, BorderLayout.SOUTH);
+
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.pack();
+	    frame.setVisible(true);
 	}
 }
