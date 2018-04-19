@@ -18,7 +18,8 @@ import main.MenuPrincipal;
 public class VentanaSistema extends JPanel{
 
 	private JFrame frame;
-
+	private boolean sistema = true; // Leyenda: true - puede resolverse, false - no puede resolverse.
+	private JPanel panelPestana2 = new JPanel();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -104,10 +105,32 @@ public class VentanaSistema extends JPanel{
 				return "Se trata de un Sistema Compatible Indeterminado.";
 			}			
 		} else {
+			sistema = false;
 			return "Se trata de un Sistema Incompatible. No tiene soluciones.";
 		}
 		
 		
+		
+	}
+	
+	
+	public void resolverSistema (int m1, int m2, int m3, int m4, int m5, int m6, int m7, int m8, int m9, int b1, int b2, int b3) {
+		int deta = ((m9*m5*m1)+(m4*m8*m3)+(m2*m6*m7))-((m7*m5*m3)+(m4*m2*m9)+(m8*m6*m1));
+		
+		int detx = ((m9*m5*b1)+(b2*m8*m3)+(m2*m6*b3))-((b3*m5*m3)+(b2*m2*m9)+(m8*m6*b1));
+		
+		int dety = ((m9*b2*m1)+(b1*m6*m7)+(m4*b3*m3))-((m7*b2*m3)+(m4*b1*m9)+(b3*m6*m1));
+		
+		int detz = ((b3*m5*m1)+(m2*b2*m7)+(m4*m8*b1))-((m7*m5*b1)+(m4*m2*b3)+(m8*b2*m1));
+		
+		if(sistema) {
+			double resultx = detx/deta; double resulty = dety/deta; double resultz = detz/deta;
+			JLabel resultado = new JLabel("Los resultado del sistema son; X:"+resultx+" Y:"+resulty+" Z:"+resultz);
+			panelPestana2.add(resultado);
+		} else {
+			JLabel prueba = new JLabel ("Prueba con un sistema que tenga soluciones.");
+			panelPestana2.add(prueba);
+		}
 		
 	}
 	
@@ -151,7 +174,7 @@ public class VentanaSistema extends JPanel{
         
         
         JPanel panelPestana1 = new JPanel(); // Panel dentro de la tab
-        JPanel panelPestana2 = new JPanel();
+        //JPanel panelPestana2 = new JPanel();
         
         JPanel panelGeneral = new JPanel(); // Panel dentro del frame principal
         
@@ -242,6 +265,13 @@ public class VentanaSistema extends JPanel{
 							Integer.valueOf((String)table.getValueAt(2, 2)), Integer.valueOf((String)table.getValueAt(0, 3)), 
 							Integer.valueOf((String)table.getValueAt(1, 3)), Integer.valueOf((String)table.getValueAt(2, 3))));
 				 panelPestana2.add(tipoSistema);
+				 resolverSistema((Integer.valueOf((String)table.getValueAt(0, 0))), 
+						 	Integer.valueOf((String)table.getValueAt(0, 1)), 
+							Integer.valueOf((String)table.getValueAt(0, 2)), Integer.valueOf((String)table.getValueAt(1, 0)), 
+							Integer.valueOf((String)table.getValueAt(1, 1)), Integer.valueOf((String)table.getValueAt(1, 2)), 
+							Integer.valueOf((String)table.getValueAt(2, 0)), Integer.valueOf((String)table.getValueAt(2, 1)), 
+							Integer.valueOf((String)table.getValueAt(2, 2)), Integer.valueOf((String)table.getValueAt(0, 3)), 
+							Integer.valueOf((String)table.getValueAt(1, 3)), Integer.valueOf((String)table.getValueAt(2, 3)));
 			}
 		});
 		
