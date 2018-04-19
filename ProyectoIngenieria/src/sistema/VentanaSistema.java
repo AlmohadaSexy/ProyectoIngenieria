@@ -20,6 +20,7 @@ public class VentanaSistema extends JPanel{
 	private JFrame frame;
 	private boolean sistema = true; // Leyenda: true - puede resolverse, false - no puede resolverse.
 	private JPanel panelPestana2 = new JPanel();
+	private JPanel subPanelPestana2 = new JPanel();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -116,6 +117,8 @@ public class VentanaSistema extends JPanel{
 	
 	
 	public void resolverSistema (int m1, int m2, int m3, int m4, int m5, int m6, int m7, int m8, int m9, int b1, int b2, int b3) {
+		subPanelPestana2.setLayout(new BoxLayout(subPanelPestana2, BoxLayout.PAGE_AXIS));
+
 		int deta = ((m9*m5*m1)+(m4*m8*m3)+(m2*m6*m7))-((m7*m5*m3)+(m4*m2*m9)+(m8*m6*m1));
 		
 		int detx = ((m9*m5*b1)+(b2*m8*m3)+(m2*m6*b3))-((b3*m5*m3)+(b2*m2*m9)+(m8*m6*b1));
@@ -126,13 +129,14 @@ public class VentanaSistema extends JPanel{
 		
 		if(sistema) {
 			double resultx = detx/deta; double resulty = dety/deta; double resultz = detz/deta;
-			JLabel resultado = new JLabel("Los resultado del sistema son; X:"+resultx+" Y:"+resulty+" Z:"+resultz);
-			panelPestana2.add(resultado);
+			JLabel resultado = new JLabel("Los resultados del sistema son: | X "+resultx+"| Y "+resulty+"| Z "+resultz+"|");
+			subPanelPestana2.add(resultado);
+			panelPestana2.add(subPanelPestana2);
 		} else {
 			JLabel prueba = new JLabel ("Prueba con un sistema que tenga una unica solucion existente.");
-			panelPestana2.add(prueba);
+			subPanelPestana2.add(prueba);
+			panelPestana2.add(subPanelPestana2);
 		}
-		
 	}
 	
 
@@ -254,6 +258,7 @@ public class VentanaSistema extends JPanel{
 				 tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 				 tabbedPane.setSelectedIndex(1);
 				 panelPestana2.removeAll(); // Para limpiar el panel y poder hacer nuevos sistemas sin cerrar la ventana
+				 subPanelPestana2.removeAll();
 				 JLabel tipoSistema = new JLabel(tipoDeSistema(Integer.valueOf((String)table.getValueAt(0, 0)), 
 						 	Integer.valueOf((String)table.getValueAt(0, 1)), 
 							Integer.valueOf((String)table.getValueAt(0, 2)), Integer.valueOf((String)table.getValueAt(1, 0)), 
@@ -261,7 +266,7 @@ public class VentanaSistema extends JPanel{
 							Integer.valueOf((String)table.getValueAt(2, 0)), Integer.valueOf((String)table.getValueAt(2, 1)), 
 							Integer.valueOf((String)table.getValueAt(2, 2)), Integer.valueOf((String)table.getValueAt(0, 3)), 
 							Integer.valueOf((String)table.getValueAt(1, 3)), Integer.valueOf((String)table.getValueAt(2, 3))));
-				 panelPestana2.add(tipoSistema);
+				 subPanelPestana2.add(tipoSistema);
 				 resolverSistema((Integer.valueOf((String)table.getValueAt(0, 0))), 
 						 	Integer.valueOf((String)table.getValueAt(0, 1)), 
 							Integer.valueOf((String)table.getValueAt(0, 2)), Integer.valueOf((String)table.getValueAt(1, 0)), 
