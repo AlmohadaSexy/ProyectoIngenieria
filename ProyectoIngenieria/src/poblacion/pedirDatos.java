@@ -1,9 +1,14 @@
 package poblacion;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 
 
 

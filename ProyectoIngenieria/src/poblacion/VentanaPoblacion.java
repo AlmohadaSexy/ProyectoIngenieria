@@ -43,25 +43,13 @@ public class VentanaPoblacion extends JFrame {
 
     	// Add Panels
     	upperPanel = new pedirDatos();
+        panelTab.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    	this.addPanels(0, 0, 1, 1, upperPanel); // row, col, height, width, component
+
+    	JPanel panelBotones = new JPanel();
+        panelBotones.setLayout(new BoxLayout(panelBotones,BoxLayout.LINE_AXIS));
         
-    	this.addPanels(0, 0, 1, 3, upperPanel); // row, col, height, width, component
-        
-    	downRightPanel = new JPanel();
-    	downRightPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
-    	downRightPanel.setLayout(new BorderLayout());
-    	this.addPanels(1, 2, 1, 1, downRightPanel); // row, col, height, width, component
-        
-    	downCenterPanel = new JPanel();
-    	downCenterPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
-    	downCenterPanel.setLayout(new BorderLayout());
-    	this.addPanels(1, 1, 1, 1, downCenterPanel); // row, col, height, width, component
-        
-    	downLeftPanel = new JPanel();
-    	downLeftPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
-    	downLeftPanel.setLayout(new BorderLayout());
-    	this.addPanels(1, 0, 1, 1, downLeftPanel); // row, col, height, width, component
-        
-        
+    	
     	JButton botonAtras = new JButton("Atras");
     	botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 26));
     	botonAtras.addActionListener(new ActionListener() {
@@ -69,7 +57,7 @@ public class VentanaPoblacion extends JFrame {
     			mainPoblacion.close();
     		}
     	});
-    	downRightPanel.add(botonAtras, BorderLayout.CENTER);
+    	panelBotones.add(botonAtras, BorderLayout.CENTER);
         
     	JButton botonSubmit = new JButton("Submit");
     	botonSubmit.setFont(new Font("Tahoma", Font.PLAIN, 26));
@@ -104,7 +92,7 @@ public class VentanaPoblacion extends JFrame {
     			}
     		}
     	});
-    	downLeftPanel.add(botonSubmit, BorderLayout.CENTER);
+    	panelBotones.add(botonSubmit, BorderLayout.CENTER);
 		
     	JButton botonClear = new JButton("Clear");
     	botonClear.setFont(new Font("Tahoma", Font.PLAIN, 26));
@@ -122,7 +110,20 @@ public class VentanaPoblacion extends JFrame {
     			}
     		}
     	});
-    	downCenterPanel.add(botonClear, BorderLayout.CENTER);
+    	panelBotones.add(botonClear, BorderLayout.CENTER);
+    	
+    	
+    	panelBotones.setBorder(
+                BorderFactory.createEmptyBorder(0, 10, 5, 10));
+        
+    	panelBotones.add(Box.createHorizontalGlue());
+    	panelBotones.add(botonSubmit);
+        panelBotones.add(Box.createRigidArea(new Dimension (5,0)));
+        panelBotones.add(botonClear);
+        panelBotones.add(Box.createRigidArea(new Dimension (5,0)));
+        panelBotones.add(botonAtras);
+        
+        this.addPanels(1, 0, 1, 1, panelBotones);
 	}
 
 	private void addPanels(int row, int col, int height, int width, Component com) {
