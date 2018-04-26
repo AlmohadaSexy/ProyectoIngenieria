@@ -66,9 +66,15 @@ public class Operaciones {
 		//table.setFont(new Font("Comic Sans MS",Font.PLAIN, 16));
 		
 		panel.add(table, BorderLayout.CENTER);
-		read();
-		for(int i = 0; i < 10; i++) {
+		
+		File file = new File("Resultados.txt");
+		if(file.exists()) {
+			read();
 			reorder();
+		}else {
+			arrArchivo = new String[1][2];
+			arrArchivo[0][0] = Nombre;
+			arrArchivo[0][1] = String.valueOf(matrizTabla[21][3]);
 		}
 		write();
 	}
@@ -144,8 +150,6 @@ public class Operaciones {
 		String dato = null;
 		arrArchivo = new String[numLineas+1][2];
 		BufferedReader archivo = new BufferedReader(new FileReader("Resultados.txt"));
-		int rank = 1;
-		
 		for(int i = 0; i < numLineas; i++) {
 			dato = archivo.readLine();
 			int datoLong = dato.length();
@@ -182,46 +186,47 @@ public class Operaciones {
 			}
 		}
 		arrArchivo[numLineas][0] = Nombre;
-		arrArchivo[numLineas][1] = String.valueOf(matrizTabla[21][3]);;
+		arrArchivo[numLineas][1] = String.valueOf(matrizTabla[21][3]);
 	}
 	
 	private static void reorder() {
 		String aux1, aux2;
 		int izq, der;
-		for(int i = 0; i < arrArchivo.length - 1; i++){
-			try {
-				izq = Integer.parseInt(arrArchivo[i][1]);
-				der = Integer.parseInt(arrArchivo[i + 1][1]);
-			}catch(NumberFormatException e){
-				String s = arrArchivo[i + 1][1];
-				s.replaceAll("\\s+","");
-				double aux3 = Double.parseDouble(s);
-				der = (int) aux3;
+		for(int k = 0; k < arrArchivo.length; k++) {
+			for(int i = 0; i < arrArchivo.length - 1; i++){
+				try {
+					izq = Integer.parseInt(arrArchivo[i][1]);
+					der = Integer.parseInt(arrArchivo[i + 1][1]);
+				}catch(NumberFormatException e){
+					String s = arrArchivo[i + 1][1];
+					s.replaceAll("\\s+","");
+					double aux3 = Double.parseDouble(s);
+					der = (int) aux3;
 				
-				String t = arrArchivo[i][1];
-				t.replaceAll("\\s+","");
-				double aux4 = Double.parseDouble(t);
-				izq = (int) aux4;
-			}
+					String t = arrArchivo[i][1];
+					t.replaceAll("\\s+","");
+					double aux4 = Double.parseDouble(t);
+					izq = (int) aux4;
+				}
 				if(izq < der){
 					aux1 = arrArchivo[i][0];
 					arrArchivo[i][0] = arrArchivo[i + 1][0];
-					arrArchivo[i + 1][0] = aux1;
+					arrArchivo[i + 1][0] = aux1;					
 					
-					aux2 = arrArchivo[i][1];
+					aux2 = arrArchivo[i][1];	
 					arrArchivo[i][1] = arrArchivo[i + 1][1];
 					arrArchivo[i + 1][1] = aux2;
+				}
 			}
 		}
-		
 	}
 	
 	static String[][] arrArchivo;
 	
 	private static void write() throws IOException {
 		int rank = 1;
-		File resul = new File("Resultados.txt");
-		resul.delete();
+		//File resul = new File("Resultados.txt");
+		//resul.delete();
 		PrintWriter writer = new PrintWriter("Resultados.txt");
 		
 		for(int i = 0; i < arrArchivo.length; i++) {
