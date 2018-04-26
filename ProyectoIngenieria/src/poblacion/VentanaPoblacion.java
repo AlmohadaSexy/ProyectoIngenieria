@@ -125,7 +125,18 @@ public class VentanaPoblacion extends JFrame {
         
         this.addPanels(1, 0, 1, 1, panelBotones);
 	}
-
+	/**
+	 * 
+	 * Este metodo se usa para organizar los elementos dentro del frame
+	 * 
+	 * @param row Fila en la que se encuentra
+	 * @param col Columna en la que se encuentra
+	 * @param height Numero de filas que ocupa
+	 * @param width Numero de columnas que ocupa
+	 * @param com Componente que añades a la ventana
+	 * 
+	 * @author IgnacioT
+	 */
 	private void addPanels(int row, int col, int height, int width, Component com) {
 		gbc.gridx = col;
 		gbc.gridy = row;

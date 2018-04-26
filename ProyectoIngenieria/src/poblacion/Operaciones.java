@@ -18,18 +18,25 @@ public class Operaciones {
 	static String[] titulos = {"A\u00f1o", "P J", "P A", "P T", "PJn/PAn", "Tn/Tn-1"};
 	public static double[][]matrizFin;
 	static double[][]matrizCons;
-	
 	static Object[][]matrizTabla = new Object[22][6];
 	static double[] totals = new double[22];
-	
 	static int cont = 1;
-	
 	public static String Nombre;
+	static String[][] arrArchivo;
 	
 	Operaciones() {
 
 	}
 	
+	/**
+	 * Este metodo es el que se llama desde la clase mainPoblacion
+	 * Su cometido es añadir una tab al frame, rellenar alguna que otra columna de la matriz de la tabla que añade
+	 * Tambien crea la tabla con todos los datos dentro, ya que despues de crearla no se pueden cambiar los datos de dentros
+	 * 
+	 * Desde aqui se llama a read(), reorder() y write(). Aunque solo llama a los dos primeros si existe el Archivo Resultados.txt
+	 * 
+	 * @author IgnacioT
+	 */
 	public static void addTab() throws IOException {
 		panel = new JPanel();
 		VentanaPoblacion.panelTab.addTab("Resultados " + Nombre, panel);
@@ -79,7 +86,10 @@ public class Operaciones {
 		write();
 	}
 	
-	
+	/**
+	 * A este metodo se le llama cada vez que quieres hacer una iteracion: saca una matriz 2x1 dadas las matrices 2x2 y 2x1
+	 * @author IgnacioT
+	 */
 
 	public static double[][] multiply() {
 	    double[][] c = new double[2][1];
@@ -95,6 +105,15 @@ public class Operaciones {
 	    return c;
 	}
 	
+	/**
+	 * Este metodo crea la matriz de la derecha 2x1
+	 * 
+	 * Es llamada desde mainPoblacion y rellena una matriz estática
+	 * 
+	 * @param pj Poblacion Joven
+	 * @param pa Poblacion Adulta
+	 * @author IgnacioT
+	 */
 	public static void matrizFin(int pj, int pa){
 		matrizFin = new double[2][1];
 		matrizFin[0][0] = pj;
@@ -103,6 +122,16 @@ public class Operaciones {
 		
 	}
 	
+	/**
+	 * Este metodo crea la matriz constante de la izquierda 2x2.
+	 * 
+	 * Es llamada desde mainPoblacion y rellena una matriz estática
+	 * 
+	 * @param k Valor de k
+	 * @param a Valor de alpha
+	 * @param b Valor de beta
+	 * @author IgnacioT
+	 */
 	public static void matrizConstante(double k, double a, double b){
 		matrizCons = new double[2][2];
 		matrizCons[0][0] = 0;
@@ -111,6 +140,12 @@ public class Operaciones {
 		matrizCons[1][1] = b;
 	}
 	
+	/**
+	 * Este metodo rellena la matriz tabla mientras se van haciendo las iteraciones por lo que matamos dos pajaros de un tiro.
+	 * 
+	 * tambien multiplica la matriz final con el metodo multiply()
+	 * @author IgnacioT
+	 */
 	public static void iteraciones() {
 		for(int i = 0; i <= 20; i++) {
 			//Poblacion J
@@ -134,7 +169,14 @@ public class Operaciones {
 		}
 	}
 	
-
+	/**
+	 * read() solo es llamado si existe archivo para leer
+	 * 
+	 * Lee los datos de Resultados.txt y los añade al arrArchivo para reordenarlos con reorder()
+	 * 
+	 * Utiliza elementos difereciadores tales como '|', ',' y ':' para poder leer lo que hay entre medias
+	 * @author IgnacioT
+	 */
 	
 	public static int aux1, aux2, aux3;
 	@SuppressWarnings("resource")
@@ -189,6 +231,12 @@ public class Operaciones {
 		arrArchivo[numLineas][1] = String.valueOf(matrizTabla[21][3]);
 	}
 	
+	/**
+	 * Este metodo tiene un for que se repite tantas veces como lineas tenga el array arrArchivo
+	 * 
+	 * reemplaza la linea siguiente con la anterior si la siguiente es mayor a la anterior
+	 * @author IgnacioT
+	 */
 	private static void reorder() {
 		String aux1, aux2;
 		int izq, der;
@@ -221,12 +269,12 @@ public class Operaciones {
 		}
 	}
 	
-	static String[][] arrArchivo;
-	
+	/**
+	 * Escribe todo el arrArchivo en el archivo Resultados.txt con el formato para poder leerlo otra vez
+	 * @author IgnacioT
+	 */
 	private static void write() throws IOException {
 		int rank = 1;
-		//File resul = new File("Resultados.txt");
-		//resul.delete();
 		PrintWriter writer = new PrintWriter("Resultados.txt");
 		
 		for(int i = 0; i < arrArchivo.length; i++) {
