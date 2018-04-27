@@ -11,12 +11,12 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.html.HTMLEditorKit;
 
 import main.MenuPrincipal;
 
 
 public class VentanaSistema extends JPanel{
-
 	private JFrame frame;
 	private boolean sistema = true; // Leyenda: true - puede resolverse, false - no puede resolverse.
 	private JPanel panelPestana2 = new JPanel();
@@ -53,8 +53,7 @@ public class VentanaSistema extends JPanel{
 		initialize();
 	}
 		
-	
-	
+
 	public String tipoDeSistema(int m1, int m2, int m3, int m4, int m5, int m6, int m7, int m8, int m9, int b1, int b2, int b3) {
 		
 		// Calculamos el rango de la matriz de coeficientes
@@ -116,21 +115,137 @@ public class VentanaSistema extends JPanel{
 	}
 	
 	
-	public void resolverSistema (int m1, int m2, int m3, int m4, int m5, int m6, int m7, int m8, int m9, int b1, int b2, int b3) {
+	public void resolverSistema (double m1, double m2, double m3, double m4, double m5, double m6, 
+			double m7, double m8, double m9, double b1, double b2, double b3) {
 		subPanelPestana2.setLayout(new BoxLayout(subPanelPestana2, BoxLayout.PAGE_AXIS));
 
-		int deta = ((m9*m5*m1)+(m4*m8*m3)+(m2*m6*m7))-((m7*m5*m3)+(m4*m2*m9)+(m8*m6*m1));
+		double deta = ((m9*m5*m1)+(m4*m8*m3)+(m2*m6*m7))-((m7*m5*m3)+(m4*m2*m9)+(m8*m6*m1));
 		
-		int detx = ((m9*m5*b1)+(b2*m8*m3)+(m2*m6*b3))-((b3*m5*m3)+(b2*m2*m9)+(m8*m6*b1));
+		double detx = ((m9*m5*b1)+(b2*m8*m3)+(m2*m6*b3))-((b3*m5*m3)+(b2*m2*m9)+(m8*m6*b1));
 		
-		int dety = ((m9*b2*m1)+(b1*m6*m7)+(m4*b3*m3))-((m7*b2*m3)+(m4*b1*m9)+(b3*m6*m1));
+		double dety = ((m9*b2*m1)+(b1*m6*m7)+(m4*b3*m3))-((m7*b2*m3)+(m4*b1*m9)+(b3*m6*m1));
 		
-		int detz = ((b3*m5*m1)+(m2*b2*m7)+(m4*m8*b1))-((m7*m5*b1)+(m4*m2*b3)+(m8*b2*m1));
+		double detz = ((b3*m5*m1)+(m2*b2*m7)+(m4*m8*b1))-((m7*m5*b1)+(m4*m2*b3)+(m8*b2*m1));
 		
 		if(sistema) {
 			double resultx = detx/deta; double resulty = dety/deta; double resultz = detz/deta;
 			JLabel resultado = new JLabel("Los resultados del sistema son: | X "+resultx+"| Y "+resulty+"| Z "+resultz+"|");
 			subPanelPestana2.add(resultado);
+			
+			// PASOS PARA LA RESOLUCION DEL PROBLEMA
+			JEditorPane editorPane = new JEditorPane();
+	        editorPane.setEditable(false);
+	        editorPane.setEditorKit(new HTMLEditorKit());
+	        JScrollPane editorScrollPane = new JScrollPane(editorPane);
+	        editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	        editorScrollPane.setPreferredSize(new Dimension(750, 370));
+	        editorScrollPane.setMinimumSize(new Dimension(10, 10));
+	        editorScrollPane.setVisible(true);
+       
+			String textoPr = "<p><strong>1</strong>. Para resolver el sistema se ha usado el metodo de Cramer. "
+					+ "El <em>primer paso</em> es hallar el determinante de la matriz de coeficientes:</p>\n" + 
+					"<table style=\"height: 154px; border-color: black;\" width=\"310\">\n" + 
+					"<tbody>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"</tbody>\n" + 
+					"</table>\n" + 
+					"<p>&nbsp;<strong>Dicho determinante es(DetM): %s</strong></p>\n" + 
+					"<p>&nbsp;</p>\n" + 
+					"<p><strong>2.</strong>&nbsp;A continuacion, debemos de <em>sustituir la "
+					+ "primera columna</em> del sistema por la <em>columna de terminos independientes</em>. Hallamos el "
+					+ "determinante de esta matriz y guardamos el resultado:</p>\n" + 
+					"<table style=\"height: 154px; border-color: black;\" width=\"310\">\n" + 
+					"<tbody>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"</tbody>\n" + 
+					"</table>\n" + 
+					"<p><strong>Determinante Matriz X(MX) = %s</strong></p>\n" + 
+					"<p>&nbsp;</p>\n" + 
+					"<p><strong>3.</strong>&nbsp;El tercer paso es similar al paso anterior. Sin embargo, ahora vamos a <em>sustituir "
+					+ "la segunda columna</em> del sistema por la <em>columna de terminos independientes</em>. Una vez hecho esto, calculamos "
+					+ "el nuevo determinante y lo guardamos:&nbsp;</p>\n" + 
+					"<table style=\"height: 154px; border-color: black;\" width=\"310\">\n" + 
+					"<tbody>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"</tbody>\n" + 
+					"</table>\n" + 
+					"<p><strong>Determinante Matriz Y(MY) = %s</strong></p>\n" + 
+					"<p><strong>4.</strong> Realizamos el mismo proceso, esta vez <em>sustituyendo la ultima columna del sistema</em> por la"
+					+ " <em>columna de terminos independientes</em>:</p>\n" + 
+					"<table style=\"height: 154px; border-color: black;\" width=\"310\">\n" + 
+					"<tbody>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"<tr>\n" + 
+					"<td style=\"width: 95px;\">%s</td>\n" + 
+					"<td style=\"width: 96px;\">%s</td>\n" + 
+					"<td style=\"width: 97px;\">%s</td>\n" + 
+					"</tr>\n" + 
+					"</tbody>\n" + 
+					"</table>\n" + 
+					"<p><strong>Determinante Matriz Z(MZ) = %s</strong></p>\n" + 
+					"<p><strong>5.</strong> Finalmente debemos dividir cada uno de los tres determinantes obtenidos con "
+					+ "el primero de todos, el de la matriz de coeficientes. Esta division nos dara el "
+					+ "resultado de las variables X, Y, Z de nuestro sistema:</p>\n" + 
+					"<p>X = MX / DetM ; Y = MY / DetM; Z = MZ / DetM</p>";
+			
+			String resol = String.format(textoPr, m1, m2, m3, m4, m5, m6, m7, m8, m9, deta, b1, m2, m3, b2, m5, m6, b3, m8, m9, detx, m1, 
+					b1, m3, m4, b2, m6, m7, b3, m9, dety, m1, m2, b1, m4, m5, b2, m7, m8, b3, detz);
+	        editorPane.setText(resol);
+	       
+			
+	        subPanelPestana2.add(editorScrollPane);
+	        //subPanelPestana2.add(editorPane);
 			panelPestana2.add(subPanelPestana2);
 		} else {
 			JLabel prueba = new JLabel ("Prueba con un sistema que tenga una unica solucion existente.");
@@ -217,8 +332,8 @@ public class VentanaSistema extends JPanel{
 		botonVolver.setBounds(0, 0, 888, 888);
 		botonVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
 				new MenuPrincipal().open();
+				frame.dispose();
 			}
 		});
 		
@@ -267,13 +382,13 @@ public class VentanaSistema extends JPanel{
 							Integer.valueOf((String)table.getValueAt(2, 2)), Integer.valueOf((String)table.getValueAt(0, 3)), 
 							Integer.valueOf((String)table.getValueAt(1, 3)), Integer.valueOf((String)table.getValueAt(2, 3))));
 				 subPanelPestana2.add(tipoSistema);
-				 resolverSistema((Integer.valueOf((String)table.getValueAt(0, 0))), 
-						 	Integer.valueOf((String)table.getValueAt(0, 1)), 
-							Integer.valueOf((String)table.getValueAt(0, 2)), Integer.valueOf((String)table.getValueAt(1, 0)), 
-							Integer.valueOf((String)table.getValueAt(1, 1)), Integer.valueOf((String)table.getValueAt(1, 2)), 
-							Integer.valueOf((String)table.getValueAt(2, 0)), Integer.valueOf((String)table.getValueAt(2, 1)), 
-							Integer.valueOf((String)table.getValueAt(2, 2)), Integer.valueOf((String)table.getValueAt(0, 3)), 
-							Integer.valueOf((String)table.getValueAt(1, 3)), Integer.valueOf((String)table.getValueAt(2, 3)));
+				 resolverSistema((Double.valueOf((String)table.getValueAt(0, 0))), 
+							Double.valueOf((String)table.getValueAt(0, 1)), 
+							Double.valueOf((String)table.getValueAt(0, 2)), Double.valueOf((String)table.getValueAt(1, 0)), 
+							Double.valueOf((String)table.getValueAt(1, 1)), Double.valueOf((String)table.getValueAt(1, 2)), 
+							Double.valueOf((String)table.getValueAt(2, 0)), Double.valueOf((String)table.getValueAt(2, 1)), 
+							Double.valueOf((String)table.getValueAt(2, 2)), Double.valueOf((String)table.getValueAt(0, 3)), 
+							Double.valueOf((String)table.getValueAt(1, 3)), Double.valueOf((String)table.getValueAt(2, 3)));
 			}
 		});
 		
@@ -288,8 +403,7 @@ public class VentanaSistema extends JPanel{
 			}
 		});
 		
-
-		
+	
 		/***
 		 * 
 		 * 
