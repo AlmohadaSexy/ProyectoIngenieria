@@ -1,18 +1,24 @@
 package poblacion;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 
-import javax.swing.*;
-
-
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.SpringLayout;
 
 public class pedirDatos extends JPanel{
 	private static final long serialVersionUID = 1L;
 	JLabel labelK, labelA, labelB, labelPJ, labelPA;
 	public static JTextField textFieldK, textFieldA, textFieldB, textFieldPJ, textFieldPA, textFieldNombre;
 	
-	
+	/**
+	 * Este metodo crea un panel e introduce dentro cada elemento (labels y textFields ligados) ordenandolos con un SpringLayout
+	 * @author IgnacioT
+	 */
 	public pedirDatos() {
 		super(new GridLayout(1, 1));
 		
@@ -73,7 +79,7 @@ public class pedirDatos extends JPanel{
 		panel1.add(textFieldNombre);
 		
 
-		//Lay out the panel.
+		//Ponemos el Layout al Panel1
 		SpringUtilities.makeCompactGrid(panel1,
 										6, 2, //rows, cols
 										6, 6,        //initX, initY

@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-
 import conicas.VentanaConicas;
 import poblacion.*;
 import sistema.*;
@@ -55,10 +54,15 @@ public class MenuPrincipal{
 		double alturaPantalla = (screenSize.getHeight()/2);
 		
 		frame.setSize((int) anchuraPantalla, (int) alturaPantalla);
-		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+		
+		//JPanel panel = new JPanel();
+		//panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		
+		//frame.setContentPane(panel);
 		
 		int alturaVentana = frame.getHeight();
 		int anchuraVentana = frame.getWidth();
@@ -84,8 +88,11 @@ public class MenuPrincipal{
 				new VentanaConicas().open();
 			}
 		});
-		btn2.setBounds(0, (alturaVentana / 3)*1 - 10, anchuraVentana, alturaVentana / 3 - 20);
-		frame.getContentPane().add(btn2);
+		
+		btn2.setBounds(0, (alturaVentana / 3)*1 -10 , anchuraVentana, alturaVentana / 3 -20);
+		frame.add(btn2);
+		
+		
 		
 		JButton btn3 = new JButton("Crecimiento de Poblaciones");
 		btn3.setFont(new Font("Tahoma", Font.PLAIN, 26));
@@ -97,7 +104,7 @@ public class MenuPrincipal{
 			}
 		});
 		btn3.setBounds(0, (alturaVentana / 3)*2 - 20, anchuraVentana, alturaVentana / 3 - 20);
-		frame.getContentPane().add(btn3);
+		frame.add(btn3);
 		
 	}
 }

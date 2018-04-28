@@ -19,7 +19,9 @@ public class mainPoblacion {
 			}
 		});
 	}
-	
+	/**
+	 * Este metodo abre esta ventana
+	 */
 	public void open() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -31,7 +33,9 @@ public class mainPoblacion {
 			}
 		});
 	}
-	
+	/**
+	 * Este metodo cierra framePoblacion y abre menuPrincipal
+	 */
 	public static void close() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

@@ -23,12 +23,12 @@ public class SpringUtilities {
      * preferred width and height of the components.
      * The parent is made just big enough to fit them all.
      *
-     * @param rows number of rows
-     * @param cols number of columns
-     * @param initialX x location to start the grid at
-     * @param initialY y location to start the grid at
-     * @param xPad x padding between cells
-     * @param yPad y padding between cells
+     * @param rows Numero de filas
+     * @param cols Numero de columnas
+     * @param initialX Localizacion en X para empezar el grid
+     * @param initialY Localizacion en Y para empezar el grid
+     * @param xPad Espaciado en X entre celdas
+     * @param yPad Espaciado en Y entre celdas
      */
     public static void makeGrid(Container parent,
                                 int rows, int cols,
@@ -101,7 +101,8 @@ public class SpringUtilities {
 /*        pCons.setConstraint(SpringLayout.SOUTH,
                             Spring.sum(
                                 Spring.constant(yPad),
-                                lastCons.getConstraint(SpringLayout.SOUTH)));*/
+                                lastCons.getConstraint(SpringLayout.SOUTH)));
+*/
         pCons.setConstraint(SpringLayout.EAST,
                             Spring.sum(
                                 Spring.constant(xPad),
@@ -126,12 +127,12 @@ public class SpringUtilities {
      * height is similarly determined for each row.
      * The parent is made just big enough to fit them all.
      *
-     * @param rows number of rows
-     * @param cols number of columns
-     * @param initialX x location to start the grid at
-     * @param initialY y location to start the grid at
-     * @param xPad x padding between cells
-     * @param yPad y padding between cells
+     * @param rows Numero de filas
+     * @param cols Numero de columnas
+     * @param initialX Localizacion en X para empezar el grid
+     * @param initialY Localizacion en Y para empezar el grid
+     * @param xPad Espaciado en X entre celdas
+     * @param yPad Espaciado en Y entre celdas
      */
     public static void makeCompactGrid(Container parent,
                                        int rows, int cols,
