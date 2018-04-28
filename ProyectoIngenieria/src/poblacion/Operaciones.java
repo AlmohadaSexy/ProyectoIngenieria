@@ -29,11 +29,12 @@ public class Operaciones {
 	}
 	
 	/**
-	 * Este metodo es el que se llama desde la clase mainPoblacion
-	 * Su cometido es añadir una tab al frame, rellenar alguna que otra columna de la matriz de la tabla que añade
-	 * Tambien crea la tabla con todos los datos dentro, ya que despues de crearla no se pueden cambiar los datos de dentros
+	 * Este metodo es el que se llama desde la clase mainPoblacion.</br>
+	 * Su cometido es añadir una tab al frame, rellenar alguna que otra columna de la matriz de la tabla que añade.</br>
+	 * Tambien crea la tabla con todos los datos dentro, ya que despues de crearla no se pueden cambiar los datos de dentros.</br></br>
 	 * 
-	 * Desde aqui se llama a read(), reorder() y write(). Aunque solo llama a los dos primeros si existe el Archivo Resultados.txt
+	 * Desde aqui se llama a <code>read()</code>, <code>reorder()</code> y <code>write()</code>. Aunque solo llama a los dos primeros si existe el Archivo <code>Resultados.txt</code>
+	 * 
 	 * 
 	 * @author IgnacioT
 	 */
@@ -106,7 +107,7 @@ public class Operaciones {
 	}
 	
 	/**
-	 * Este metodo crea la matriz de la derecha 2x1
+	 * Este metodo crea la matriz de la derecha 2x1</br>
 	 * 
 	 * Es llamada desde mainPoblacion y rellena una matriz estática
 	 * 
@@ -123,7 +124,7 @@ public class Operaciones {
 	}
 	
 	/**
-	 * Este metodo crea la matriz constante de la izquierda 2x2.
+	 * Este metodo crea la matriz constante de la izquierda 2x2.</br>
 	 * 
 	 * Es llamada desde mainPoblacion y rellena una matriz estática
 	 * 
@@ -141,9 +142,9 @@ public class Operaciones {
 	}
 	
 	/**
-	 * Este metodo rellena la matriz tabla mientras se van haciendo las iteraciones por lo que matamos dos pajaros de un tiro.
+	 * Este metodo rellena la matriz tabla mientras se van haciendo las iteraciones por lo que matamos dos pajaros de un tiro.</br>
 	 * 
-	 * tambien multiplica la matriz final con el metodo multiply()
+	 * Tambien multiplica la matriz final con el metodo multiply()
 	 * @author IgnacioT
 	 */
 	public static void iteraciones() {
@@ -170,11 +171,12 @@ public class Operaciones {
 	}
 	
 	/**
-	 * read() solo es llamado si existe archivo para leer
+	 * read() solo es llamado si existe archivo para leer</br>
 	 * 
-	 * Lee los datos de Resultados.txt y los añade al arrArchivo para reordenarlos con reorder()
+	 * Lee los datos de Resultados.txt y los añade al arrArchivo para reordenarlos con reorder()</br>
 	 * 
 	 * Utiliza elementos difereciadores tales como '|', ',' y ':' para poder leer lo que hay entre medias
+	 * 
 	 * @author IgnacioT
 	 */
 	
@@ -232,9 +234,10 @@ public class Operaciones {
 	}
 	
 	/**
-	 * Este metodo tiene un for que se repite tantas veces como lineas tenga el array arrArchivo
+	 * Este metodo tiene un for que se repite tantas veces como lineas tenga el array arrArchivo.</br>
 	 * 
-	 * reemplaza la linea siguiente con la anterior si la siguiente es mayor a la anterior
+	 * Reemplaza la linea siguiente con la anterior si la siguiente es mayor a la anterior
+	 * 
 	 * @author IgnacioT
 	 */
 	private static void reorder() {
@@ -271,6 +274,7 @@ public class Operaciones {
 	
 	/**
 	 * Escribe todo el arrArchivo en el archivo Resultados.txt con el formato para poder leerlo otra vez
+	 * 
 	 * @author IgnacioT
 	 */
 	private static void write() throws IOException {

@@ -16,7 +16,9 @@ public class VentanaPoblacion extends JFrame {
 	static boolean doubleJustSeemsGood;
 	double k, A, B;
 	int anos, PA, PJ;
-	
+	/**
+	 * 
+	 */
 	public VentanaPoblacion() {
     	this.setTitle("Ventana de Poblacion");
     	this.setSize(Variables.width, Variables.height);
@@ -88,7 +90,7 @@ public class VentanaPoblacion extends JFrame {
         			panelTab.setSelectedIndex(Variables.contOperaciones);
         			Variables.contOperaciones++;
     			} else if (panelTab.getSelectedIndex() != 0){
-    				JOptionPane.showMessageDialog(null, "Vaya a la primera TAB para poder calcular el resultado");
+    				JOptionPane.showMessageDialog(null, "Vaya a la primera TAB para poder calcular el resul0tado");
     			}
     		}
     	});
