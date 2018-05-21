@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.html.HTMLEditorKit;
 
@@ -80,6 +82,8 @@ public class VentanaSistema extends JPanel{
 	        editorScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 	        editorScrollPane.setPreferredSize(new Dimension(750, 370));
+	        frame.setSize(1150,550);
+	        frame.setLocationRelativeTo(null);
 	        editorScrollPane.setMinimumSize(new Dimension(10, 10));
 	        editorScrollPane.setVisible(true);
        
@@ -205,11 +209,24 @@ public class VentanaSistema extends JPanel{
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.getTableHeader().setReorderingAllowed(false);		
+		table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		table.setFillsViewportHeight(true);
 		
 		
 		panelPestana1.setOpaque(true);
 		panelPestana1.add(scrollPane);
 		
+		// Para cambiar dimensiones de ventana al seleccionar los distintos tabs.
+		tabbedPane.addChangeListener(new ChangeListener() {
+		    public void stateChanged(ChangeEvent e) {
+		    		if (tabbedPane.getSelectedIndex() == 0) {
+		    			frame.setSize(1130, 200);
+		    		} else {
+		    			frame.setSize(1150, 550);
+		    		}
+		    }
+		});
+
 		
 		JButton botonResolver = new JButton("Resolver");
 		botonResolver.setBounds(0, 0, 888, 888);
