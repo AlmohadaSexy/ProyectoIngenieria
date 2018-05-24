@@ -17,6 +17,12 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import main.MenuPrincipal;
 
+/**
+ * 
+ * @author Jorge Moreno
+ *
+ */
+
 
 public class VentanaSistema extends JPanel{
 	private JFrame frame;
@@ -55,6 +61,24 @@ public class VentanaSistema extends JPanel{
 		initialize();
 	}
 	
+	
+	/**
+	 * Este metodo resuelve el sistema y muestra los pasos seguidos para esto. Los parametros introducidos corresponden a los distintos terminos
+	 * de la matriz de coeficientes del sistema introducido por el usuario en el componente JTable.
+	 * 
+	 * @param m1 - Valor de la primera columna y primera fila.
+	 * @param m2 - Segunda columna y primera fila.
+	 * @param m3 - Tercera columna y primera fila.
+	 * @param m4 - Primera columna y segunda fila.
+	 * @param m5 - Segunda columna y segunda fila.
+	 * @param m6 - Tercera columna y segunda fila.
+	 * @param m7 - Primera columna y tercera fila.
+	 * @param m8 - Segunda columna y tercera fila.
+	 * @param m9 - Tercera columna y tercera fila.
+	 * @param b1 - Cuarta columna y primera fila.
+	 * @param b2 - Cuarta columna y segunda fila.
+	 * @param b3 - Cuarta columna y tercera fila.
+	 */
 	
 	public void resolverSistema (double m1, double m2, double m3, double m4, double m5, double m6, 
 			double m7, double m8, double m9, double b1, double b2, double b3) {
@@ -216,17 +240,7 @@ public class VentanaSistema extends JPanel{
 		panelPestana1.setOpaque(true);
 		panelPestana1.add(scrollPane);
 		
-		// Para cambiar dimensiones de ventana al seleccionar los distintos tabs.
-		tabbedPane.addChangeListener(new ChangeListener() {
-		    public void stateChanged(ChangeEvent e) {
-		    		if (tabbedPane.getSelectedIndex() == 0) {
-		    			frame.setSize(1130, 200);
-		    		} else {
-		    			frame.setSize(1150, 550);
-		    		}
-		    }
-		});
-
+		
 		
 		JButton botonResolver = new JButton("Resolver");
 		botonResolver.setBounds(0, 0, 888, 888);
@@ -306,6 +320,22 @@ public class VentanaSistema extends JPanel{
         frame.pack();
         frame.setLocationRelativeTo(null);
         
+       
+        frame.setMinimumSize(panelPestana1.getSize());
+        
+        // Para cambiar dimensiones de ventana al seleccionar los distintos tabs. Se hace resize correctamente.
+     		tabbedPane.addChangeListener(new ChangeListener() {
+     		    public void stateChanged(ChangeEvent e) {
+     		    		if (tabbedPane.getSelectedIndex() == 0) {
+     		    			frame.setSize(1130, 200);
+     		    			frame.setMinimumSize(panelPestana1.getSize());
+     		    		} else {
+     		    			frame.setSize(1150, 550);
+     		    			frame.setMinimumSize(panelPestana2.getSize());
+     		    		}
+     		    }
+     		});
+
 
 	}
 }

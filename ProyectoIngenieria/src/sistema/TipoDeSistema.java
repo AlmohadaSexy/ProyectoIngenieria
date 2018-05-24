@@ -1,5 +1,14 @@
 package sistema;
 
+/**
+ * 
+ * @author Jorge Moreno
+ *
+ */
+
+
+
+
 public class TipoDeSistema { // Esta clase muestra el tipo de sistema que se ha introducido.
 	private boolean sistema = true; // Leyenda: true - puede resolverse, false - no puede resolverse. Cambia segun los valores introducidos.
 	

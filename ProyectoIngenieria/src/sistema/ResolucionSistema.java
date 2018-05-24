@@ -1,5 +1,13 @@
 package sistema;
 
+/**
+ * 
+ * @author Jorge Moreno
+ *
+ */
+
+
+
 public class ResolucionSistema {
 	
 	/**
