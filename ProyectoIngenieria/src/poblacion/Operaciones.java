@@ -15,17 +15,20 @@ import javax.swing.table.DefaultTableModel;
 public class Operaciones {
 	private static JPanel panel;	
 	static JTable table;
-	static String[] titulos = {"A\u00f1o", "P J", "P A", "P T", "PJn/PAn", "Tn/Tn-1"};
-	public static double[][]matrizFin;
-	static double[][]matrizCons;
-	static Object[][]matrizTabla = new Object[22][6];
-	static double[] totals = new double[22];
+	String[] titulos = {"A\u00f1o", "P J", "P A", "P T", "PJn/PAn", "Tn/Tn-1"};
+	public double[][]matrizFin;
+	double[][]matrizCons;
+	Object[][]matrizTabla = new Object[22][6];
+	double[] totals = new double[22];
 	static int cont = 1;
-	public static String Nombre;
+	public String Nombre;
 	static String[][] arrArchivo;
+	VentanaPoblacion salida;
 	
-	Operaciones() {
-
+	Operaciones(/*VentanaPoblacion salida, double[][] matrizCons, String nombre*/) {
+//		this.salida = salida;
+//		this.matrizCons = matrizCons;
+//		this.Nombre = nombre;
 	}
 	
 	/**
@@ -38,10 +41,15 @@ public class Operaciones {
 	 * 
 	 * @author IgnacioT
 	 */
-	public static void addTab() throws IOException {
+	public void addTab() throws IOException {
+		
+		
+		//mover esto a ventana poblacion para que no se joda
+		
+		
 		panel = new JPanel();
-		VentanaPoblacion.panelTab.addTab("Resultados " + Nombre, panel);
-		VentanaPoblacion.panelTab.setMnemonicAt(Variables.contOperaciones, KeyEvent.VK_2);
+		salida.panelTab.addTab("Resultados " + Nombre, panel);
+		salida.panelTab.setMnemonicAt(Variables.contOperaciones, KeyEvent.VK_2);
 		
 		for(int i = 0; i < matrizTabla.length - 1; i++) {
 			matrizTabla[i+1][0] = i;
@@ -74,7 +82,7 @@ public class Operaciones {
 		//table.setFont(new Font("Comic Sans MS",Font.PLAIN, 16));
 		
 		panel.add(table, BorderLayout.CENTER);
-		
+		salida.tamano();
 		File file = new File("Resultados.txt");
 		if(file.exists()) {
 			read();
@@ -92,7 +100,7 @@ public class Operaciones {
 	 * @author IgnacioT
 	 */
 
-	public static double[][] multiply() {
+	public double[][] multiply() {
 	    double[][] c = new double[2][1];
 	    
 	    for (int i = 0; i < 2; i++) {
@@ -115,7 +123,7 @@ public class Operaciones {
 	 * @param pa Poblacion Adulta
 	 * @author IgnacioT
 	 */
-	public static void matrizFin(int pj, int pa){
+	public void matrizFin(int pj, int pa){
 		matrizFin = new double[2][1];
 		matrizFin[0][0] = pj;
 		matrizFin[1][0] = pa;
@@ -133,7 +141,7 @@ public class Operaciones {
 	 * @param b Valor de beta
 	 * @author IgnacioT
 	 */
-	public static void matrizConstante(double k, double a, double b){
+	public void matrizConstante(double k, double a, double b){
 		matrizCons = new double[2][2];
 		matrizCons[0][0] = 0;
 		matrizCons[0][1] = k;
@@ -147,7 +155,7 @@ public class Operaciones {
 	 * Tambien multiplica la matriz final con el metodo multiply()
 	 * @author IgnacioT
 	 */
-	public static void iteraciones() {
+	public void iteraciones() {
 		for(int i = 0; i <= 20; i++) {
 			//Poblacion J
 			matrizTabla[i+1][1] = (int)matrizFin[0][0]; 
@@ -182,7 +190,7 @@ public class Operaciones {
 	
 	public static int aux1, aux2, aux3;
 	@SuppressWarnings("resource")
-	private static void read() throws IOException {
+	private void read() throws IOException {
 		
 		BufferedReader in = new BufferedReader(new FileReader("Resultados.txt"));
 		int numLineas = 0;

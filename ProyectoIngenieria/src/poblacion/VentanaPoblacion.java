@@ -1,6 +1,9 @@
 package poblacion;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -12,29 +15,42 @@ public class VentanaPoblacion extends JFrame {
 	GridBagConstraints gbc;
 	pedirDatos upperPanel;
 	JPanel panelBotones, panelPrincipal;
-	public static JTabbedPane panelTab;
-	static boolean doubleJustSeemsGood;
+	public  JTabbedPane panelTab;
+	boolean doubleJustSeemsGood;
 	double k, A, B;
 	int PA, PJ;
-	
+	String Nombre;
+	public JButton botonSubmit;
+	JButton botonClear, botonAtras;
+	Operaciones operaciones;
 	/**
+	 * @param operaciones 
+	 * @param botonSubmit 
+	 * @param doubleJustSeemsGood 
+	 * @param  
 	 * 
 	 */
-	public VentanaPoblacion() {
+	public VentanaPoblacion(/*Operaciones operaciones, JButton botonSubmit, boolean doubleJustSeemsGood*/) {
     	this.setTitle("Ventana de Poblacion");
     	this.setSize(Variables.width, Variables.height);
     	this.setResizable(true);
     	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	this.setVisible(true);
     	this.setLocationRelativeTo(null);
+//    	this.operaciones = operaciones;
+//    	this.botonSubmit = botonSubmit;
+//    	this.doubleJustSeemsGood = doubleJustSeemsGood;
+    	
+    	operaciones = new Operaciones ();
     	
     	//Creamos los 3 paneles, el principal, y los dos que van a ir dentro
     	panelPrincipal = new JPanel();
-    	upperPanel = new pedirDatos();
+    	panelTab = new JTabbedPane();
+    	upperPanel = new pedirDatos(panelTab);
     	upperPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     	panelBotones = new JPanel();
         
-    	JButton botonAtras = new JButton("Atras");
+    	botonAtras = new JButton("Atras");
     	botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 26));
     	botonAtras.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
@@ -42,29 +58,31 @@ public class VentanaPoblacion extends JFrame {
     		}
     	});
         
-    	JButton botonSubmit = new JButton("Aceptar");
+        botonSubmit = new JButton("Aceptar");
     	botonSubmit.setFont(new Font("Tahoma", Font.PLAIN, 26));
     	botonSubmit.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
+    			boolean ok = doubleJustSeemsGood;
     			try	{
-    				k = Double.parseDouble(pedirDatos.textFieldK.getText());
-    				A = Double.parseDouble(pedirDatos.textFieldA.getText());
-    				B = Double.parseDouble(pedirDatos.textFieldB.getText());
-    				PA = Integer.parseInt(pedirDatos.textFieldPA.getText());
-    				PJ = Integer.parseInt(pedirDatos.textFieldPJ.getText());	
-    				Operaciones.Nombre = String.valueOf(pedirDatos.textFieldNombre.getText());
-    				doubleJustSeemsGood = true;
+    				k = upperPanel.getK();
+    				A = upperPanel.getA();
+    				B = upperPanel.getB();
+    				PA = upperPanel.getPA();
+    				PJ = upperPanel.getPJ();	
+    				Nombre = upperPanel.getNombre();
+    				ok = true;
     			} catch(Exception ee) {
     				JOptionPane.showMessageDialog(null, "No se puede convertir a Double");
-    				doubleJustSeemsGood = false;
+    				ok = false;
     			}
+    			final boolean doubleJustSeemsGood = ok;
     			if(doubleJustSeemsGood && panelTab.getSelectedIndex() == 0) {
     				
-        			Operaciones.matrizConstante(k, A, B);
-        			Operaciones.matrizFin(PJ, PA);
-        			Operaciones.iteraciones();
+        			operaciones.matrizConstante(k, A, B);
+        			operaciones.matrizFin(PJ, PA);
+        			operaciones.iteraciones();
         			try {
-						Operaciones.addTab();
+						operaciones.addTab();
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -74,25 +92,22 @@ public class VentanaPoblacion extends JFrame {
     				panelTab.setSelectedIndex(0);
     				JOptionPane.showMessageDialog(null, "Debe estar en la primera TAB para enviar los datos.");
     			}
+    			
     		}
     	});
 		
-    	JButton botonClear = new JButton("Cerrar TAB y limpiar");
+    	botonClear = new JButton("Cerrar TAB y limpiar");
     	botonClear.setFont(new Font("Tahoma", Font.PLAIN, 26));
     	botonClear.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
+    			upperPanel.clear();
     			
-    			pedirDatos.textFieldK.setText("");
-    			pedirDatos.textFieldA.setText("");
-        		pedirDatos.textFieldB.setText("");
-        		pedirDatos.textFieldPA.setText("");
-        		pedirDatos.textFieldPJ.setText("");
-        		pedirDatos.textFieldNombre.setText("");
     			panelTab.removeTabAt(panelTab.getSelectedIndex());
     			panelTab.setSelectedIndex(0);
     		}
     	});
 
+    	
     	//Ponemos el layout al panelBotones y añadimos los respectivos botones
     	panelBotones.setLayout(new BoxLayout(panelBotones,BoxLayout.LINE_AXIS));
     	panelBotones.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
@@ -108,5 +123,19 @@ public class VentanaPoblacion extends JFrame {
         panelPrincipal.add(upperPanel);
         panelPrincipal.add(panelBotones, BorderLayout.PAGE_END);
         this.add(panelPrincipal);
+        
+//        panelTab.addChangeListener(new ChangeListener() {
+//			public void stateChanged(ChangeEvent e) {
+//		    	if (panelTab.getSelectedIndex() == 0) {
+//		    		botonSubmit.setEnabled(true);
+//		    	} else {
+//		    		botonSubmit.setEnabled(false);
+//		    	}
+//		    }
+//		});
+	}
+
+	public void tamano() {
+		setMinimumSize(Operaciones.table.getSize());
 	}
 }

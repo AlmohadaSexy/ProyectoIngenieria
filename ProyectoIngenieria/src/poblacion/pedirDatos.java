@@ -9,20 +9,20 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class pedirDatos extends JPanel{
 	private static final long serialVersionUID = 1L;
 	JLabel labelK, labelA, labelB, labelPJ, labelPA;
-	public static JTextField textFieldK, textFieldA, textFieldB, textFieldPJ, textFieldPA, textFieldNombre;
+	public JTextField textFieldK, textFieldA, textFieldB, textFieldPJ, textFieldPA, textFieldNombre;
 	
 	/**
 	 * Este metodo crea un panel e introduce dentro cada elemento (labels y textFields ligados) ordenandolos con un SpringLayout
 	 * @author IgnacioT
 	 */
-	public pedirDatos() {
+	public pedirDatos(JTabbedPane panelTab) {
 		super(new GridLayout(1, 1));
-		
-		VentanaPoblacion.panelTab = new JTabbedPane();
 		
 		
         
@@ -85,11 +85,44 @@ public class pedirDatos extends JPanel{
 										6, 6,        //initX, initY
 										10, 10);       //xPad, yPad
 		
-		VentanaPoblacion.panelTab.addTab("Datos", panel1);
+		panelTab.addTab("Datos", panel1);
 		
-		VentanaPoblacion.panelTab.setMnemonicAt(0, KeyEvent.VK_1);
+		panelTab.setMnemonicAt(0, KeyEvent.VK_1);
 		
-		add(VentanaPoblacion.panelTab);
-		VentanaPoblacion.panelTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		add(panelTab);
+		panelTab.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 	}	
+	
+	public double getK() {
+		return Double.parseDouble(textFieldK.getText());
+	}
+	
+	public double getA() {
+		return Double.parseDouble(textFieldA.getText());
+	}
+	
+	public double getB() {
+		return Double.parseDouble(textFieldB.getText());
+	}
+	
+	public int getPA() {
+		return Integer.parseInt(textFieldPA.getText());
+	}
+	
+	public int getPJ() {
+		return Integer.parseInt(textFieldPJ.getText());
+	}
+	
+	public String getNombre() {
+		return String.valueOf(textFieldNombre.getText());
+	}
+	
+	public void clear() {
+		textFieldK.setText("");
+		textFieldA.setText("");
+		textFieldB.setText("");
+		textFieldPA.setText("");
+		textFieldPJ.setText("");
+		textFieldNombre.setText("");
+	}
 }
