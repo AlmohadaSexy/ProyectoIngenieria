@@ -1,9 +1,8 @@
 package poblacion;
 
 import java.awt.BorderLayout;
-import java.awt.event.*;
+import java.awt.Dimension;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,8 +11,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 
+
 public class Operaciones {
-	private static JPanel panel;	
 	static JTable table;
 	String[] titulos = {"A\u00f1o", "P J", "P A", "P T", "PJn/PAn", "Tn/Tn-1"};
 	public double[][]matrizFin;
@@ -22,34 +21,25 @@ public class Operaciones {
 	double[] totals = new double[22];
 	static int cont = 1;
 	public String Nombre;
-	static String[][] arrArchivo;
+	String[][] arrArchivo;
 	VentanaPoblacion salida;
+	private Dimension TableSize;
 	
-	Operaciones(/*VentanaPoblacion salida, double[][] matrizCons, String nombre*/) {
-//		this.salida = salida;
-//		this.matrizCons = matrizCons;
-//		this.Nombre = nombre;
+	Operaciones() {
+
 	}
 	
 	/**
 	 * Este metodo es el que se llama desde la clase mainPoblacion.</br>
-	 * Su cometido es añadir una tab al frame, rellenar alguna que otra columna de la matriz de la tabla que añade.</br>
-	 * Tambien crea la tabla con todos los datos dentro, ya que despues de crearla no se pueden cambiar los datos de dentros.</br></br>
+	 * 
+	 * Crea la tabla con todos los datos dentro, ya que despues de crearla no se pueden cambiar los datos de dentros.</br></br>
 	 * 
 	 * Desde aqui se llama a <code>read()</code>, <code>reorder()</code> y <code>write()</code>. Aunque solo llama a los dos primeros si existe el Archivo <code>Resultados.txt</code>
 	 * 
 	 * 
 	 * @author IgnacioT
 	 */
-	public void addTab() throws IOException {
-		
-		
-		//mover esto a ventana poblacion para que no se joda
-		
-		
-		panel = new JPanel();
-		salida.panelTab.addTab("Resultados " + Nombre, panel);
-		salida.panelTab.setMnemonicAt(Variables.contOperaciones, KeyEvent.VK_2);
+	public void operations() {
 		
 		for(int i = 0; i < matrizTabla.length - 1; i++) {
 			matrizTabla[i+1][0] = i;
@@ -73,26 +63,6 @@ public class Operaciones {
 			}
 		}
 		matrizTabla[1][5] = null;
-		
-		table = new JTable(new DefaultTableModel(matrizTabla,
-				new String[] {"A\u00f1o", "Poblacion J", "Poblacion a", "Poblacion T", "Pjn/Pan", "Tn/Tn-1"})
-		);
-		
-		//table.setPreferredSize(new Dimension(VentanaPoblacion.panelTab.getHeight(), VentanaPoblacion.panelTab.getWidth()));
-		//table.setFont(new Font("Comic Sans MS",Font.PLAIN, 16));
-		
-		panel.add(table, BorderLayout.CENTER);
-		salida.tamano();
-		File file = new File("Resultados.txt");
-		if(file.exists()) {
-			read();
-			reorder();
-		}else {
-			arrArchivo = new String[1][2];
-			arrArchivo[0][0] = Nombre;
-			arrArchivo[0][1] = String.valueOf(matrizTabla[21][3]);
-		}
-		write();
 	}
 	
 	/**
@@ -127,8 +97,6 @@ public class Operaciones {
 		matrizFin = new double[2][1];
 		matrizFin[0][0] = pj;
 		matrizFin[1][0] = pa;
-		
-		
 	}
 	
 	/**
@@ -190,7 +158,7 @@ public class Operaciones {
 	
 	public static int aux1, aux2, aux3;
 	@SuppressWarnings("resource")
-	private void read() throws IOException {
+	public void read() throws IOException {
 		
 		BufferedReader in = new BufferedReader(new FileReader("Resultados.txt"));
 		int numLineas = 0;
@@ -248,7 +216,7 @@ public class Operaciones {
 	 * 
 	 * @author IgnacioT
 	 */
-	private static void reorder() {
+	public void reorder() {
 		String aux1, aux2;
 		int izq, der;
 		for(int k = 0; k < arrArchivo.length; k++) {
@@ -285,7 +253,7 @@ public class Operaciones {
 	 * 
 	 * @author IgnacioT
 	 */
-	private static void write() throws IOException {
+	public void write() throws IOException {
 		int rank = 1;
 		PrintWriter writer = new PrintWriter("Resultados.txt");
 		
@@ -299,4 +267,28 @@ public class Operaciones {
 		
 	}
 	
+	public void rellenarMatrices(double A, double k, double B, int PA, int PJ) {
+		matrizConstante(k, A, B);
+		matrizFin(PJ, PA);
+	}
+	
+	public JPanel getTablePanel() {
+		JPanel panel = new JPanel();
+		table = new JTable(new DefaultTableModel(matrizTabla,
+				new String[] {"A\u00f1o", "Poblacion J", "Poblacion a", "Poblacion T", "Pjn/Pan", "Tn/Tn-1"})
+		);
+		
+		panel.add(table, BorderLayout.CENTER);
+		setTableSize(panel.getSize());
+		return panel;
+		
+		
+		//salida.tamano();
+	}
+	public void setTableSize(Dimension dimension) {
+		this.TableSize = dimension;
+	}
+	public Dimension getTableSize() {
+		return TableSize;
+	}
 }

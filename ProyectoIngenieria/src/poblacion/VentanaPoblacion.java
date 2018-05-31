@@ -4,13 +4,16 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import main.MenuPrincipal;
+
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
+import java.io.File;
 
-@SuppressWarnings("serial")
-public class VentanaPoblacion extends JFrame {
+public class VentanaPoblacion {
 
+
+	JFrame ventana;
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
 	pedirDatos upperPanel;
@@ -23,23 +26,19 @@ public class VentanaPoblacion extends JFrame {
 	public JButton botonSubmit;
 	JButton botonClear, botonAtras;
 	Operaciones operaciones;
+	
 	/**
-	 * @param operaciones 
-	 * @param botonSubmit 
-	 * @param doubleJustSeemsGood 
-	 * @param  
+	 * 
 	 * 
 	 */
-	public VentanaPoblacion(/*Operaciones operaciones, JButton botonSubmit, boolean doubleJustSeemsGood*/) {
-    	this.setTitle("Ventana de Poblacion");
-    	this.setSize(Variables.width, Variables.height);
-    	this.setResizable(true);
-    	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	this.setVisible(true);
-    	this.setLocationRelativeTo(null);
-//    	this.operaciones = operaciones;
-//    	this.botonSubmit = botonSubmit;
-//    	this.doubleJustSeemsGood = doubleJustSeemsGood;
+	public VentanaPoblacion() {
+		ventana = new JFrame();
+		ventana.setTitle("Ventana de Poblacion");
+    	//this.setSize(Variables.width, Variables.height);
+		ventana.setResizable(true);
+		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ventana.setVisible(true);
+		ventana.setLocationRelativeTo(null);
     	
     	operaciones = new Operaciones ();
     	
@@ -54,7 +53,9 @@ public class VentanaPoblacion extends JFrame {
     	botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 26));
     	botonAtras.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			mainPoblacion.close();
+    			ventana.dispose();
+    			MenuPrincipal menu = new MenuPrincipal();
+    			menu.open();
     		}
     	});
         
@@ -78,14 +79,26 @@ public class VentanaPoblacion extends JFrame {
     			final boolean doubleJustSeemsGood = ok;
     			if(doubleJustSeemsGood && panelTab.getSelectedIndex() == 0) {
     				
-        			operaciones.matrizConstante(k, A, B);
-        			operaciones.matrizFin(PJ, PA);
+        			operaciones.rellenarMatrices(A, k, B, PA, PJ);
         			operaciones.iteraciones();
-        			try {
-						operaciones.addTab();
-					} catch (IOException e1) {
-						e1.printStackTrace();
+        			operaciones.operations();
+					addTab(Nombre, operaciones.getTablePanel());
+					File file = new File("Resultados.txt");
+					try{
+						if(file.exists()) {
+					
+						operaciones.read();
+						operaciones.reorder();
+					}else {
+						operaciones.arrArchivo = new String[1][2];
+						operaciones.arrArchivo[0][0] = Nombre;
+						operaciones.arrArchivo[0][1] = String.valueOf(operaciones.matrizTabla[21][3]);
+						operaciones.write();
 					}
+					} catch(Exception ee) {
+						
+					}
+					
         			panelTab.setSelectedIndex(Variables.contOperaciones);
         			Variables.contOperaciones++;
     			} else if (panelTab.getSelectedIndex() != 0){
@@ -117,25 +130,44 @@ public class VentanaPoblacion extends JFrame {
         panelBotones.add(botonClear);
         panelBotones.add(Box.createRigidArea(new Dimension (5,0)));
         panelBotones.add(botonAtras);
-        
+        ventana.setSize(new Dimension(panelPrincipal.getHeight() , botonSubmit.getWidth() + botonClear.getWidth() + botonAtras.getWidth() + 15));
         //Ponemos el layout al panel principal y añadimos upperPanel y panelBotones
         panelPrincipal.setLayout(new BorderLayout());
         panelPrincipal.add(upperPanel);
         panelPrincipal.add(panelBotones, BorderLayout.PAGE_END);
-        this.add(panelPrincipal);
+        ventana.add(panelPrincipal);
+        //this.setSize();
+        tamano();
+        panelTab.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+		    	if (panelTab.getSelectedIndex() == 0) {
+		    		botonSubmit.setEnabled(true);
+		    		tamano();
+		    	} else {
+		    		botonSubmit.setEnabled(false);
+		    		tamano();
+		    	}
+		    }
+		});
         
-//        panelTab.addChangeListener(new ChangeListener() {
-//			public void stateChanged(ChangeEvent e) {
-//		    	if (panelTab.getSelectedIndex() == 0) {
-//		    		botonSubmit.setEnabled(true);
-//		    	} else {
-//		    		botonSubmit.setEnabled(false);
-//		    	}
-//		    }
-//		});
+        ventana.setMinimumSize(new Dimension(panelPrincipal.getHeight(), panelBotones.getWidth() + 200));
 	}
-
+	
 	public void tamano() {
-		setMinimumSize(Operaciones.table.getSize());
+		
+		
+		//if(Variables.width <= panelBotones.getWidth()) {
+			System.out.println(Variables.width);
+			System.out.println(panelBotones.getWidth());
+			System.out.println(panelPrincipal.getHeight());
+		//}
+		ventana.setMinimumSize(new Dimension(panelPrincipal.getHeight(), panelBotones.getWidth() + 100));
+		
 	}
+	
+	public void addTab(String Nombre, JPanel panel) {
+		panelTab.addTab("Resultados " + Nombre, panel);
+		panelTab.setMnemonicAt(Variables.contOperaciones, KeyEvent.VK_2);
+	}
+	
 }
