@@ -21,14 +21,16 @@ public class Operaciones {
 	double[] totals = new double[22];
 	static int cont = 1;
 	public String Nombre;
-	String[][] arrArchivo;
+	static String[][] arrArchivo;
 	VentanaPoblacion salida;
 	private Dimension TableSize;
-	
+	public int numLineas = 0;
 	Operaciones() {
 
 	}
-	
+	public void setNombre(String nombre) {
+		this.Nombre = nombre;
+	}
 	/**
 	 * Este metodo es el que se llama desde la clase mainPoblacion.</br>
 	 * 
@@ -57,7 +59,7 @@ public class Operaciones {
 			for(int j = 0; j < matrizTabla[0].length; j++) {
 				StringBuilder sb = new StringBuilder(String.valueOf(matrizTabla[i][j]));
 				if(i != 0) {
-					sb.setLength(4);
+					sb.setLength(7);
 				}
 				matrizTabla[i][j] = sb;
 			}
@@ -125,27 +127,29 @@ public class Operaciones {
 	 */
 	public void iteraciones() {
 		for(int i = 0; i <= 20; i++) {
-			//Poblacion J
-			matrizTabla[i+1][1] = (int)matrizFin[0][0]; 
-			
-			//Poblacion A
-			matrizTabla[i+1][2] = (int)matrizFin[1][0];
-			
-			//Poblacion T
-			matrizTabla[i+1][3] = (int)matrizFin[0][0] + (int)matrizFin[1][0];
-			totals[i+1] = (int)matrizFin[0][0] + (int)matrizFin[1][0];
-			
-			//Poblacionj/poblaciona
-			double pj = (int)matrizFin[0][0];
-			double pa = (int)matrizFin[1][0];
-			matrizTabla[i+1][4] = pj / pa;
-			
-			
-			
+			aLaTabla(i);
 			matrizFin = multiply();
 		}
 	}
 	
+	private void aLaTabla(int i) {
+		//Poblacion J
+		matrizTabla[i+1][1] = (int)matrizFin[0][0]; 
+		
+		//Poblacion A
+		matrizTabla[i+1][2] = (int)matrizFin[1][0];
+		
+		//Poblacion T
+		matrizTabla[i+1][3] = (int)matrizFin[0][0] + (int)matrizFin[1][0];
+		totals[i+1] = (int)matrizFin[0][0] + (int)matrizFin[1][0];
+		
+		//Poblacionj/poblaciona
+		double pj = (int)matrizFin[0][0];
+		double pa = (int)matrizFin[1][0];
+		
+		matrizTabla[i+1][4] = pj / pa;
+	}
+
 	/**
 	 * read() solo es llamado si existe archivo para leer</br>
 	 * 
@@ -161,7 +165,7 @@ public class Operaciones {
 	public void read() throws IOException {
 		
 		BufferedReader in = new BufferedReader(new FileReader("Resultados.txt"));
-		int numLineas = 0;
+		numLineas = 0;
 		while(in.readLine() != null) {
 			numLineas++;
 		}
@@ -170,7 +174,7 @@ public class Operaciones {
 		String dato = null;
 		arrArchivo = new String[numLineas+1][2];
 		BufferedReader archivo = new BufferedReader(new FileReader("Resultados.txt"));
-		for(int i = 0; i < numLineas; i++) {
+		for(int i = 1; i <= numLineas; i++) {
 			dato = archivo.readLine();
 			int datoLong = dato.length();
 			
@@ -199,14 +203,19 @@ public class Operaciones {
 				if(j == 1) {
 					String poblacion = "";
 					for(int k = aux3; k < datoLong; k++) {
-						 poblacion += dato.charAt(k);
+						if(dato.charAt(k) == '0' || dato.charAt(k) == '1' || dato.charAt(k) == '2' || dato.charAt(k) == '3' || dato.charAt(k) == '4' || dato.charAt(k) == '5' ||
+								dato.charAt(k) == '6' || dato.charAt(k) == '7' || dato.charAt(k) == '8' || dato.charAt(k) == '9') {
+							poblacion += dato.charAt(k);
+						}
 					}
 					arrArchivo[i][j] = poblacion;
 				}
+				
 			}
 		}
-		arrArchivo[numLineas][0] = Nombre;
-		arrArchivo[numLineas][1] = String.valueOf(matrizTabla[21][3]);
+		arrArchivo[0][0] = Nombre;
+		arrArchivo[0][1] = String.valueOf(matrizTabla[21][3]);
+		
 	}
 	
 	/**
@@ -215,37 +224,40 @@ public class Operaciones {
 	 * Reemplaza la linea siguiente con la anterior si la siguiente es mayor a la anterior
 	 * 
 	 * @author IgnacioT
+	 * @throws IOException 
 	 */
-	public void reorder() {
+	public void reorder() throws IOException {
 		String aux1, aux2;
 		int izq, der;
-		for(int k = 0; k < arrArchivo.length; k++) {
-			for(int i = 0; i < arrArchivo.length - 1; i++){
+		String[][] auxArr = arrArchivo; 
+		for(int k = 0; k < auxArr.length; k++) {
+			for(int i = 0; i < auxArr.length - 1; i++){
 				try {
-					izq = Integer.parseInt(arrArchivo[i][1]);
-					der = Integer.parseInt(arrArchivo[i + 1][1]);
+					izq = Integer.parseInt(auxArr[i][1]);
+					der = Integer.parseInt(auxArr[i + 1][1]);
 				}catch(NumberFormatException e){
-					String s = arrArchivo[i + 1][1];
+					String s = auxArr[i + 1][1];
 					s.replaceAll("\\s+","");
 					double aux3 = Double.parseDouble(s);
 					der = (int) aux3;
 				
-					String t = arrArchivo[i][1];
+					String t = auxArr[i][1];
 					t.replaceAll("\\s+","");
 					double aux4 = Double.parseDouble(t);
 					izq = (int) aux4;
 				}
 				if(izq < der){
-					aux1 = arrArchivo[i][0];
-					arrArchivo[i][0] = arrArchivo[i + 1][0];
-					arrArchivo[i + 1][0] = aux1;					
+					aux1 = auxArr[i][0];
+					auxArr[i][0] = auxArr[i + 1][0];
+					auxArr[i + 1][0] = aux1;					
 					
-					aux2 = arrArchivo[i][1];	
-					arrArchivo[i][1] = arrArchivo[i + 1][1];
-					arrArchivo[i + 1][1] = aux2;
+					aux2 = auxArr[i][1];	
+					auxArr[i][1] = auxArr[i + 1][1];
+					auxArr[i + 1][1] = aux2;
 				}
 			}
 		}
+		arrArchivo = auxArr;
 	}
 	
 	/**
@@ -262,9 +274,7 @@ public class Operaciones {
 			writer.println();
 			rank++;
 		}
-		
 		writer.close();
-		
 	}
 	
 	public void rellenarMatrices(double A, double k, double B, int PA, int PJ) {
@@ -272,18 +282,18 @@ public class Operaciones {
 		matrizFin(PJ, PA);
 	}
 	
+	@SuppressWarnings("serial")
 	public JPanel getTablePanel() {
 		JPanel panel = new JPanel();
-		table = new JTable(new DefaultTableModel(matrizTabla,
-				new String[] {"A\u00f1o", "Poblacion J", "Poblacion a", "Poblacion T", "Pjn/Pan", "Tn/Tn-1"})
-		);
-		
+		table = new JTable(new DefaultTableModel(matrizTabla, new String [] {"A\u00f1o", "Poblacion J", "Poblacion a", "Poblacion T", "Pjn/Pan", "Tn/Tn-1"}){
+				public boolean isCellEditable(int rowIndex, int columnIndex) {
+				    return false;
+				}
+			});
+		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		panel.add(table, BorderLayout.CENTER);
 		setTableSize(panel.getSize());
 		return panel;
-		
-		
-		//salida.tamano();
 	}
 	public void setTableSize(Dimension dimension) {
 		this.TableSize = dimension;

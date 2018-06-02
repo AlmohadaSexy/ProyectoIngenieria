@@ -1,14 +1,15 @@
 package poblacion;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import main.MenuPrincipal;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class VentanaPoblacion {
 
@@ -24,9 +25,9 @@ public class VentanaPoblacion {
 	int PA, PJ;
 	String Nombre;
 	public JButton botonSubmit;
-	JButton botonClear, botonAtras;
+	JButton botonClear, botonAtras, botonRank;
 	Operaciones operaciones;
-	
+	Variables v = new Variables();
 	/**
 	 * 
 	 * 
@@ -34,7 +35,7 @@ public class VentanaPoblacion {
 	public VentanaPoblacion() {
 		ventana = new JFrame();
 		ventana.setTitle("Ventana de Poblacion");
-    	//this.setSize(Variables.width, Variables.height);
+    	ventana.setSize(v.width, v.height);
 		ventana.setResizable(true);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventana.setVisible(true);
@@ -71,6 +72,7 @@ public class VentanaPoblacion {
     				PA = upperPanel.getPA();
     				PJ = upperPanel.getPJ();	
     				Nombre = upperPanel.getNombre();
+    				operaciones.setNombre(Nombre);
     				ok = true;
     			} catch(Exception ee) {
     				JOptionPane.showMessageDialog(null, "No se puede convertir a Double");
@@ -86,27 +88,26 @@ public class VentanaPoblacion {
 					File file = new File("Resultados.txt");
 					try{
 						if(file.exists()) {
-					
-						operaciones.read();
-						operaciones.reorder();
-					}else {
-						operaciones.arrArchivo = new String[1][2];
-						operaciones.arrArchivo[0][0] = Nombre;
-						operaciones.arrArchivo[0][1] = String.valueOf(operaciones.matrizTabla[21][3]);
-						operaciones.write();
-					}
+							operaciones.read();
+							operaciones.reorder();
+						}else {
+							Operaciones.arrArchivo = new String[1][2];
+							Operaciones.arrArchivo[0][0] = Nombre;
+							Operaciones.arrArchivo[0][1] = String.valueOf(operaciones.matrizTabla[21][3]);
+						} operaciones.write();
 					} catch(Exception ee) {
 						
 					}
 					
-        			panelTab.setSelectedIndex(Variables.contOperaciones);
-        			Variables.contOperaciones++;
+        			panelTab.setSelectedIndex(panelTab.getTabCount() - 1);
     			} else if (panelTab.getSelectedIndex() != 0){
     				panelTab.setSelectedIndex(0);
     				JOptionPane.showMessageDialog(null, "Debe estar en la primera TAB para enviar los datos.");
     			}
     			
     		}
+
+			
     	});
 		
     	botonClear = new JButton("Cerrar TAB y limpiar");
@@ -117,6 +118,23 @@ public class VentanaPoblacion {
     			
     			panelTab.removeTabAt(panelTab.getSelectedIndex());
     			panelTab.setSelectedIndex(0);
+    		}
+    	});
+    	
+    	botonRank = new JButton("Ver Ranking");
+    	botonRank.setFont(new Font("Tahoma", Font.PLAIN, 26));
+    	botonRank.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			ventana.dispose();
+    			
+    			try {
+    				if(Operaciones.arrArchivo == null) {
+        				operaciones.read();
+        			}
+					ranking(operaciones.numLineas);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
     		}
     	});
 
@@ -130,44 +148,71 @@ public class VentanaPoblacion {
         panelBotones.add(botonClear);
         panelBotones.add(Box.createRigidArea(new Dimension (5,0)));
         panelBotones.add(botonAtras);
-        ventana.setSize(new Dimension(panelPrincipal.getHeight() , botonSubmit.getWidth() + botonClear.getWidth() + botonAtras.getWidth() + 15));
+        panelBotones.add(Box.createRigidArea(new Dimension (5,0)));
+        panelBotones.add(botonRank);
+        //ventana.setSize(new Dimension(panelPrincipal.getHeight() , botonSubmit.getWidth() + botonClear.getWidth() + botonAtras.getWidth() + 15));
         //Ponemos el layout al panel principal y añadimos upperPanel y panelBotones
         panelPrincipal.setLayout(new BorderLayout());
         panelPrincipal.add(upperPanel);
         panelPrincipal.add(panelBotones, BorderLayout.PAGE_END);
         ventana.add(panelPrincipal);
-        //this.setSize();
-        tamano();
-        panelTab.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-		    	if (panelTab.getSelectedIndex() == 0) {
-		    		botonSubmit.setEnabled(true);
-		    		tamano();
-		    	} else {
-		    		botonSubmit.setEnabled(false);
-		    		tamano();
-		    	}
-		    }
-		});
         
         ventana.setMinimumSize(new Dimension(panelPrincipal.getHeight(), panelBotones.getWidth() + 200));
 	}
 	
-	public void tamano() {
+	/*public void tamano() {
 		
+		System.out.println(Variables.width);
+		System.out.println(panelBotones.getWidth());
+		System.out.println(panelPrincipal.getHeight());
 		
-		//if(Variables.width <= panelBotones.getWidth()) {
-			System.out.println(Variables.width);
-			System.out.println(panelBotones.getWidth());
-			System.out.println(panelPrincipal.getHeight());
-		//}
 		ventana.setMinimumSize(new Dimension(panelPrincipal.getHeight(), panelBotones.getWidth() + 100));
-		
-	}
+	}*/
 	
 	public void addTab(String Nombre, JPanel panel) {
 		panelTab.addTab("Resultados " + Nombre, panel);
-		panelTab.setMnemonicAt(Variables.contOperaciones, KeyEvent.VK_2);
+		panelTab.setMnemonicAt(panelTab.getTabCount() - 1, KeyEvent.VK_2);
+	}
+	
+	@SuppressWarnings("resource")
+	private void ranking(int numLineas) throws IOException {
+		
+		JFrame frame = new JFrame("Ranking");
+		frame.setSize(v.width, v.height * 4 / 3);
+		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
+		JPanel panel1 = new JPanel();
+		JPanel panel2 = new JPanel();
+		JPanel panelp = new JPanel();
+		frame.setContentPane(panelp);
+		panel1.removeAll();
+		panelp.setLayout(new BorderLayout());
+		panel1.setLayout(new GridLayout(numLineas,1));
+		JLabel label;
+		BufferedReader in = new BufferedReader(new FileReader("Resultados.txt"));
+		String[] strARR = new String[numLineas];
+		for(int i = 0; i < numLineas; i++) {
+			strARR[i] = in.readLine();
+			label = new JLabel(strARR[i]);
+			label.setHorizontalAlignment(SwingConstants.CENTER);
+			label.setFont(new Font("Tahoma", Font.PLAIN, 26));
+			panel1.add(label);
+		}
+		
+		JButton buttonBack = new JButton("Atras");
+		buttonBack.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		buttonBack.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			frame.dispose();
+    			ventana.setVisible(true);
+    		}
+    	});
+		panel2.add(buttonBack);
+		panelp.add(panel1);
+		panelp.add(panel2, BorderLayout.PAGE_END);
+		
+		//borrar todos los labels cada vez que abro ranking
+		
 	}
 	
 }
