@@ -3,12 +3,15 @@ package main;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import conicas.VentanaConicas;
 import poblacion.*;
 import sistema.*;
@@ -47,7 +50,7 @@ public class MenuPrincipal{
 	}
 	
 	private void initialize() {
-		frame = new JFrame("MenuPrincipal");
+frame = new JFrame("MenuPrincipal");
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double anchuraPantalla = (screenSize.getWidth())/3;
@@ -57,15 +60,10 @@ public class MenuPrincipal{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
-		frame.setResizable(false);
 		
-		//JPanel panel = new JPanel();
-		//panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-		
-		//frame.setContentPane(panel);
-		
-		int alturaVentana = frame.getHeight();
-		int anchuraVentana = frame.getWidth();
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(3, 0));
+		frame.setContentPane(panel);
 		
 		JButton btn1 = new JButton("Sistemas de Ecuaciones");
 		btn1.setFont(new Font("Tahoma", Font.PLAIN, 26));
@@ -76,8 +74,7 @@ public class MenuPrincipal{
 				new VentanaSistema().open();
 			}
 		});
-		btn1.setBounds(0, (alturaVentana / 3)*0, anchuraVentana, alturaVentana / 3 - 20);
-		frame.add(btn1);
+		panel.add(btn1);
 		
 		JButton btn2 = new JButton("Ecuaciones Conicas");
 		btn2.setFont(new Font("Tahoma", Font.PLAIN, 26));
@@ -88,11 +85,7 @@ public class MenuPrincipal{
 				new VentanaConicas().open();
 			}
 		});
-		
-		btn2.setBounds(0, (alturaVentana / 3)*1 -10 , anchuraVentana, alturaVentana / 3 -20);
-		frame.add(btn2);
-		
-		
+		panel.add(btn2);
 		
 		JButton btn3 = new JButton("Crecimiento de Poblaciones");
 		btn3.setFont(new Font("Tahoma", Font.PLAIN, 26));
@@ -103,8 +96,6 @@ public class MenuPrincipal{
 				new mainPoblacion().open();
 			}
 		});
-		btn3.setBounds(0, (alturaVentana / 3)*2 - 20, anchuraVentana, alturaVentana / 3 - 20);
-		frame.add(btn3);
-		
+		panel.add(btn3);
 	}
 }
