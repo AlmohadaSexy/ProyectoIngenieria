@@ -163,19 +163,18 @@ public class Operaciones {
 	public static int aux1, aux2, aux3;
 	@SuppressWarnings("resource")
 	public void read() throws IOException {
-		
 		BufferedReader in = new BufferedReader(new FileReader("Resultados.txt"));
 		numLineas = 0;
 		while(in.readLine() != null) {
 			numLineas++;
 		}
 		
-		
 		String dato = null;
 		arrArchivo = new String[numLineas+1][2];
 		BufferedReader archivo = new BufferedReader(new FileReader("Resultados.txt"));
-		for(int i = 1; i <= numLineas; i++) {
+		for(int i = 0; i < numLineas; i++) {
 			dato = archivo.readLine();
+			
 			int datoLong = dato.length();
 			
 			
@@ -213,8 +212,9 @@ public class Operaciones {
 				
 			}
 		}
-		arrArchivo[0][0] = Nombre;
-		arrArchivo[0][1] = String.valueOf(matrizTabla[21][3]);
+		arrArchivo[numLineas][0] = Nombre;
+		arrArchivo[numLineas][1] = String.valueOf(matrizTabla[21][3]);
+		
 		
 	}
 	
@@ -268,7 +268,6 @@ public class Operaciones {
 	public void write() throws IOException {
 		int rank = 1;
 		PrintWriter writer = new PrintWriter("Resultados.txt");
-		
 		for(int i = 0; i < arrArchivo.length; i++) {
 			writer.print(rank + " | " + arrArchivo[i][0] + ", Poblacion: " + arrArchivo[i][1]);
 			writer.println();

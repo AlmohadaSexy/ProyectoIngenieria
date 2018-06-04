@@ -28,6 +28,7 @@ public class VentanaPoblacion {
 	JButton botonClear, botonAtras, botonRank;
 	Operaciones operaciones;
 	Variables v = new Variables();
+	
 	/**
 	 * 
 	 * 
@@ -94,11 +95,14 @@ public class VentanaPoblacion {
 							Operaciones.arrArchivo = new String[1][2];
 							Operaciones.arrArchivo[0][0] = Nombre;
 							Operaciones.arrArchivo[0][1] = String.valueOf(operaciones.matrizTabla[21][3]);
-						} operaciones.write();
+						} 
+						operaciones.write();
+						botonRank.setEnabled(true);
+						//operaciones.setNumLineas(operaciones.getNumLineas());
 					} catch(Exception ee) {
 						
 					}
-					
+					operaciones.numLineas++;
         			panelTab.setSelectedIndex(panelTab.getTabCount() - 1);
     			} else if (panelTab.getSelectedIndex() != 0){
     				panelTab.setSelectedIndex(0);
@@ -126,19 +130,20 @@ public class VentanaPoblacion {
     	botonRank.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			ventana.dispose();
-    			
     			try {
     				if(Operaciones.arrArchivo == null) {
         				operaciones.read();
         			}
-					ranking(operaciones.numLineas);
+					ranking();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
     		}
     	});
-
-    	
+    	File file = new File("Resultados.txt");
+    	if(file.exists() == false) {
+    		botonRank.setEnabled(false);
+    	}
     	//Ponemos el layout al panelBotones y añadimos los respectivos botones
     	panelBotones.setLayout(new BoxLayout(panelBotones,BoxLayout.LINE_AXIS));
     	panelBotones.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
@@ -150,7 +155,7 @@ public class VentanaPoblacion {
         panelBotones.add(botonAtras);
         panelBotones.add(Box.createRigidArea(new Dimension (5,0)));
         panelBotones.add(botonRank);
-        //ventana.setSize(new Dimension(panelPrincipal.getHeight() , botonSubmit.getWidth() + botonClear.getWidth() + botonAtras.getWidth() + 15));
+
         //Ponemos el layout al panel principal y añadimos upperPanel y panelBotones
         panelPrincipal.setLayout(new BorderLayout());
         panelPrincipal.add(upperPanel);
@@ -160,22 +165,13 @@ public class VentanaPoblacion {
         ventana.setMinimumSize(new Dimension(panelPrincipal.getHeight(), panelBotones.getWidth() + 200));
 	}
 	
-	/*public void tamano() {
-		
-		System.out.println(Variables.width);
-		System.out.println(panelBotones.getWidth());
-		System.out.println(panelPrincipal.getHeight());
-		
-		ventana.setMinimumSize(new Dimension(panelPrincipal.getHeight(), panelBotones.getWidth() + 100));
-	}*/
-	
 	public void addTab(String Nombre, JPanel panel) {
 		panelTab.addTab("Resultados " + Nombre, panel);
 		panelTab.setMnemonicAt(panelTab.getTabCount() - 1, KeyEvent.VK_2);
 	}
 	
 	@SuppressWarnings("resource")
-	private void ranking(int numLineas) throws IOException {
+	private void ranking() throws IOException {
 		
 		JFrame frame = new JFrame("Ranking");
 		frame.setSize(v.width, v.height * 4 / 3);
@@ -187,11 +183,11 @@ public class VentanaPoblacion {
 		frame.setContentPane(panelp);
 		panel1.removeAll();
 		panelp.setLayout(new BorderLayout());
-		panel1.setLayout(new GridLayout(numLineas,1));
+		panel1.setLayout(new GridLayout(operaciones.numLineas + 1,1));
 		JLabel label;
 		BufferedReader in = new BufferedReader(new FileReader("Resultados.txt"));
-		String[] strARR = new String[numLineas];
-		for(int i = 0; i < numLineas; i++) {
+		String[] strARR = new String[operaciones.numLineas];
+		for(int i = 0; i < operaciones.numLineas; i++) {
 			strARR[i] = in.readLine();
 			label = new JLabel(strARR[i]);
 			label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -210,8 +206,6 @@ public class VentanaPoblacion {
 		panel2.add(buttonBack);
 		panelp.add(panel1);
 		panelp.add(panel2, BorderLayout.PAGE_END);
-		
-		//borrar todos los labels cada vez que abro ranking
 		
 	}
 	
