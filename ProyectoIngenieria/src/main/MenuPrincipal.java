@@ -80,6 +80,7 @@ frame = new JFrame("MenuPrincipal");
 		btn2.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		btn2.setToolTipText("Resolucion y representacion grafica de ecuaciones conicas.");
 		btn2.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				new VentanaConicas().open();

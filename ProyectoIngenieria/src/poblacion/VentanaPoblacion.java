@@ -144,7 +144,7 @@ public class VentanaPoblacion {
     	if(file.exists() == false) {
     		botonRank.setEnabled(false);
     	}
-    	//Ponemos el layout al panelBotones y añadimos los respectivos botones
+    	//Ponemos el layout al panelBotones y aÃ±adimos los respectivos botones
     	panelBotones.setLayout(new BoxLayout(panelBotones,BoxLayout.LINE_AXIS));
     	panelBotones.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
     	panelBotones.add(Box.createHorizontalGlue());
@@ -156,7 +156,7 @@ public class VentanaPoblacion {
         panelBotones.add(Box.createRigidArea(new Dimension (5,0)));
         panelBotones.add(botonRank);
 
-        //Ponemos el layout al panel principal y añadimos upperPanel y panelBotones
+        //Ponemos el layout al panel principal y aÃ±adimos upperPanel y panelBotones
         panelPrincipal.setLayout(new BorderLayout());
         panelPrincipal.add(upperPanel);
         panelPrincipal.add(panelBotones, BorderLayout.PAGE_END);
@@ -194,7 +194,6 @@ public class VentanaPoblacion {
 			label.setFont(new Font("Tahoma", Font.PLAIN, 26));
 			panel1.add(label);
 		}
-		
 		JButton buttonBack = new JButton("Atras");
 		buttonBack.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		buttonBack.addActionListener(new ActionListener() {
