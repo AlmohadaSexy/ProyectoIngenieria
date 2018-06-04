@@ -77,6 +77,7 @@ public class MenuPrincipal{
 		JButton btn2 = new JButton("Ecuaciones Conicas");
 		btn2.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		btn2.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				new VentanaConicas().open();

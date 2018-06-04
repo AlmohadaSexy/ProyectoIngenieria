@@ -3,23 +3,22 @@ package conicas;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 public class VentanaConicas {
-	private static distribucionFrame ventana;
+	
+	public static DistribucionFrame ventana;
+	
     public static void main(String[] args) {
+    	
         SwingUtilities.invokeLater(new Runnable() {
+    	
             public void run() {
-                //Turn off metal's use of bold fonts
-                UIManager.put("swing.boldMetal", Boolean.FALSE);
-
-                ventana
-                        = new distribucionFrame();
-                ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                //Display the window.
+                
+                ventana = new DistribucionFrame();
+                ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);              
                 ventana.pack();
                 ventana.setVisible(true);
+                ventana.setLocationRelativeTo(null);
             }
 
         });
@@ -28,9 +27,11 @@ public class VentanaConicas {
     }
     
     public static void open() {
+    	
+    	ventana = new DistribucionFrame();
+    	ventana.pack();
     	ventana.setLocationRelativeTo(null);
     	ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	ventana.pack();
     	ventana.setVisible(true);
     }
 }

@@ -51,7 +51,7 @@ public class VentanaPoblacion {
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);
 		
-		//frame.add(pedirDatos.field1);
+		frame.add(pedirDatos.field1);
 		frame.add(pedirDatos.field2);
 		frame.add(pedirDatos.field3);
 		frame.add(pedirDatos.field4);
