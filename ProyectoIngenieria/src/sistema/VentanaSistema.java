@@ -29,19 +29,6 @@ public class VentanaSistema extends JPanel{
 	private TipoDeSistema sistemaTipo;
 	private JPanel panelPestana2 = new JPanel();
 	private JPanel subPanelPestana2 = new JPanel();
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaSistema window = new VentanaSistema();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 	
 	public void open() {
 		EventQueue.invokeLater(new Runnable() {
