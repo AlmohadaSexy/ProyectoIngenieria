@@ -20,16 +20,17 @@ public class Operaciones {
 	Object[][]matrizTabla = new Object[22][6];
 	double[] totals = new double[22];
 	static int cont = 1;
-	public String Nombre;
+	public String nombre;
 	static String[][] arrArchivo;
 	VentanaPoblacion salida;
-	private Dimension TableSize;
 	public int numLineas = 0;
+	
 	Operaciones() {
 
 	}
+	
 	public void setNombre(String nombre) {
-		this.Nombre = nombre;
+		this.nombre = nombre;
 	}
 	/**
 	 * Este metodo es el que se llama desde la clase mainPoblacion.</br>
@@ -212,7 +213,7 @@ public class Operaciones {
 				
 			}
 		}
-		arrArchivo[numLineas][0] = Nombre;
+		arrArchivo[numLineas][0] = nombre;
 		arrArchivo[numLineas][1] = String.valueOf(matrizTabla[21][3]);
 		
 		
@@ -291,13 +292,6 @@ public class Operaciones {
 			});
 		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		panel.add(table, BorderLayout.CENTER);
-		setTableSize(panel.getSize());
 		return panel;
-	}
-	public void setTableSize(Dimension dimension) {
-		this.TableSize = dimension;
-	}
-	public Dimension getTableSize() {
-		return TableSize;
 	}
 }

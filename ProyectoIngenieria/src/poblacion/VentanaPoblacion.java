@@ -19,18 +19,47 @@ public class VentanaPoblacion {
 	JFrame ventana;
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
-	pedirDatos upperPanel;
+	PedirDatos pedirDatos;
 	JPanel panelBotones, panelPrincipal;
 	public  JTabbedPane panelTab;
 	boolean doubleJustSeemsGood;
 	double k, A, B;
 	int PA, PJ;
-	String Nombre;
+	String nombre;
 	public JButton botonSubmit;
 	JButton botonClear, botonAtras, botonRank, botonCerrarTab;
 	Operaciones operaciones;
 	Variables v = new Variables();
 	
+	/**
+	 * Este metodo abre esta ventana
+	 */
+	public void open() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ventana.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	/**
+	 * Este metodo cierra framePoblacion y abre menuPrincipal
+	 */
+	public void close() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ventana.dispose();
+					new MenuPrincipal().open();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	/**
 	 * 
 	 * 
@@ -49,8 +78,8 @@ public class VentanaPoblacion {
     	//Creamos los 3 paneles, el principal, y los dos que van a ir dentro
     	panelPrincipal = new JPanel();
     	panelTab = new JTabbedPane();
-    	upperPanel = new pedirDatos(panelTab);
-    	upperPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    	pedirDatos = new PedirDatos(panelTab);
+    	pedirDatos.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     	panelBotones = new JPanel();
         
     	botonAtras = new JButton("Atras");
@@ -69,13 +98,13 @@ public class VentanaPoblacion {
     		public void actionPerformed(ActionEvent e) {
     			boolean ok = doubleJustSeemsGood;
     			try	{
-    				k = upperPanel.getK();
-    				A = upperPanel.getA();
-    				B = upperPanel.getB();
-    				PA = upperPanel.getPA();
-    				PJ = upperPanel.getPJ();	
-    				Nombre = upperPanel.getNombre();
-    				operaciones.setNombre(Nombre);
+    				k = pedirDatos.getK();
+    				A = pedirDatos.getA();
+    				B = pedirDatos.getB();
+    				PA = pedirDatos.getPA();
+    				PJ = pedirDatos.getPJ();	
+    				nombre = pedirDatos.getNombre();
+    				operaciones.setNombre(nombre);
     				ok = true;
     			} catch(Exception ee) {
     				JOptionPane.showMessageDialog(null, "Usa un formato correcto");
@@ -87,7 +116,7 @@ public class VentanaPoblacion {
         			operaciones.rellenarMatrices(A, k, B, PA, PJ);
         			operaciones.iteraciones();
         			operaciones.operations();
-					addTab(Nombre, operaciones.getTablePanel());
+					addTab(nombre, operaciones.getTablePanel());
 					File file = new File("Resultados.txt");
 					try{
 						if(file.exists()) {
@@ -95,7 +124,7 @@ public class VentanaPoblacion {
 							operaciones.reorder();
 						}else {
 							Operaciones.arrArchivo = new String[1][2];
-							Operaciones.arrArchivo[0][0] = Nombre;
+							Operaciones.arrArchivo[0][0] = nombre;
 							Operaciones.arrArchivo[0][1] = String.valueOf(operaciones.matrizTabla[21][3]);
 						} 
 						operaciones.write();
@@ -119,7 +148,7 @@ public class VentanaPoblacion {
     	botonClear.setFont(new Font("Tahoma", Font.PLAIN, 18));
     	botonClear.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			upperPanel.clear();
+    			pedirDatos.clear();
     			if(panelTab.getSelectedIndex() != 0) {
     				panelTab.removeTabAt(panelTab.getSelectedIndex());
     			}
@@ -183,7 +212,7 @@ public class VentanaPoblacion {
 
         //Ponemos el layout al panel principal y añadimos upperPanel y panelBotones
         panelPrincipal.setLayout(new BorderLayout());
-        panelPrincipal.add(upperPanel);
+        panelPrincipal.add(pedirDatos);
         panelPrincipal.add(panelBotones, BorderLayout.PAGE_END);
         ventana.add(panelPrincipal);
         
@@ -211,10 +240,10 @@ public class VentanaPoblacion {
 		panel1.setLayout(new GridLayout(operaciones.numLineas + 1,1));
 		JLabel label;
 		BufferedReader in = new BufferedReader(new FileReader("Resultados.txt"));
-		String[] strARR = new String[operaciones.numLineas];
+		String[] strArr = new String[operaciones.numLineas];
 		for(int i = 0; i < operaciones.numLineas; i++) {
-			strARR[i] = in.readLine();
-			label = new JLabel(strARR[i]);
+			strArr[i] = in.readLine();
+			label = new JLabel(strArr[i]);
 			label.setHorizontalAlignment(SwingConstants.CENTER);
 			label.setFont(new Font("Tahoma", Font.PLAIN, 26));
 			panel1.add(label);
