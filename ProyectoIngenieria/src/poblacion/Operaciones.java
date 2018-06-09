@@ -1,7 +1,6 @@
 package poblacion;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
