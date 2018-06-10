@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import main.MenuPrincipal;
@@ -15,9 +17,9 @@ public class DistribucionFrame extends JFrame implements ActionListener {
 	// Definimos las variables
 
 	private JPanel principal, info, panelDeEcuacion, secundario1, secundario2, botones;
-	public static JTabbedPane tabs;
+	public  JTabbedPane tabs;
 	private DefaultTableModel model1, model2;
-	private JButton borrar, ayuda, subir, atras;
+	private JButton borrar, borrarTab, ayuda, subir, atras;
 	private JTable tabla1, tabla2;
 	public static JTextField valorA, valorH, valorB, valorC, valorA2, valorH2, valorB2, valorC2;
 	public JLabel labelEcuacion, ecuacion1, ecuacion2;
@@ -141,13 +143,15 @@ public class DistribucionFrame extends JFrame implements ActionListener {
 		// Creamos los botones que luego pondremos en el JPanel 'botones'
 
 		borrar = new JButton("Clear");
-		borrar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		borrar.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		borrarTab = new JButton("Close Tab");
+		borrarTab.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		ayuda = new JButton("Help");
-		ayuda.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		ayuda.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		subir = new JButton("Submit");
-		subir.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		subir.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		atras = new JButton("Back");
-		atras.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		atras.setFont(new Font("Tahoma", Font.PLAIN, 18));
 
 		// Establecemos un margen para el JPanel 'botones' y añadimos los botones al mismo JPanel
 
@@ -155,7 +159,10 @@ public class DistribucionFrame extends JFrame implements ActionListener {
 
 		botones.add(Box.createHorizontalGlue());
 		botones.add(borrar);
-
+		
+		botones.add(Box.createRigidArea(new Dimension(7, 0)));
+		botones.add(borrarTab);
+		
 		botones.add(Box.createRigidArea(new Dimension(7, 0)));
 		botones.add(ayuda);
 
@@ -174,7 +181,29 @@ public class DistribucionFrame extends JFrame implements ActionListener {
 
 		borrar.setActionCommand("Borrar");
 		borrar.addActionListener(this);
-
+		
+		//Configurado para que no borre la tab que contiene las tablas
+		borrarTab.setActionCommand("Borrar Tab");
+		borrarTab.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				if(tabs.getSelectedIndex() != 0) {
+					
+					tabs.removeTabAt(tabs.getSelectedIndex());
+				}
+				tabs.setSelectedIndex(0);
+				}
+			});
+		borrarTab.setEnabled(false);
+		tabs.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                if (tabs.getSelectedIndex() == 0) {
+                    borrarTab.setEnabled(false);
+                } else {
+                    borrarTab.setEnabled(true);
+                }
+            }
+        });
+		
 		ayuda.setActionCommand("Ayudar");
 		ayuda.addActionListener(this);
 
@@ -185,13 +214,14 @@ public class DistribucionFrame extends JFrame implements ActionListener {
 		atras.addActionListener(this);
 
 	}
+	
+	// Definimos la acción de cada boton
 
 	public void actionPerformed(ActionEvent e) {
-
-		// Definimos la acción de cada boton
-
+		
+		//Establece los valores por defecto
 		if (e.getActionCommand().equals("Borrar")) {
-
+		
 			for (int i = 1; i < tabla1.getRowCount(); i++) {
 				tabla1.setValueAt("", i, 1);
 
@@ -201,26 +231,28 @@ public class DistribucionFrame extends JFrame implements ActionListener {
 				tabla2.setValueAt("", i, 1);
 
 			}
-
 			return;
 		}
-
+		
+		//Llama a la clase VentanaAyuda y crea un nuevo frame
 		if (e.getActionCommand().equals("Ayudar")) {
-
+			
 			VentanaAyuda ventanaAyuda = new VentanaAyuda();
 			ventanaAyuda.open();
 
 		}
-
+		
 		if (e.getActionCommand().equals("Subir")) {
-
-			if (tabla1.isEditing() || tabla2.isEditing()) {
-
+			
+			//Para que no de error si esta seleccionada una celda
+			if (tabla1.isEditing()) {
 				tabla1.getCellEditor().stopCellEditing();
+				
+			}
+			if(tabla2.isEditing()) {
 				tabla2.getCellEditor().stopCellEditing();
 
 			}
-
 			try {
 
 				double valA = Double.parseDouble((String) tabla1.getValueAt(1, 1));
@@ -238,21 +270,24 @@ public class DistribucionFrame extends JFrame implements ActionListener {
 
 				// Panel de confirmación de las ecuaciones
 				int reply = JOptionPane.showConfirmDialog(null, "¿Son estas las ecuaciones que querías: " + ecuacionNum1
-						+ " y " + ecuacionNum2.toString() + " ?", "¿Confirmamos?", JOptionPane.YES_NO_OPTION);
-
+						+ " y " + ecuacionNum2 + " ?", "¿Confirmamos?", JOptionPane.YES_NO_OPTION);
+				
+				//If que añade a tabs la clase TabGraficador y los valores de las tablas a esta clase
 				if (reply == JOptionPane.YES_OPTION) {
 					
 					TabGraficador var = new TabGraficador(valA, valH, valB, valC, valA2, valH2, valB2, valC2);
 					tabs.addTab("Representación gráfica: ", var);
-					tabs.setSelectedIndex(1);
+					tabs.setSelectedIndex(tabs.getTabCount() -1);
 					
 				}
-
-			} catch (Exception ee) {
-				JOptionPane.showMessageDialog(null, "No es posible convertirlo a Double");
-			}
+			
+			//En caso de no introducir numeros
+            } catch  (NumberFormatException a) {
+                JOptionPane.showMessageDialog(info, "No has introducido numeros en todas las casillas.", "Error al Introducir Datos", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
 		}
-
+		
 		if (e.getActionCommand().equals("Atrás")) {
 
 			dispose();

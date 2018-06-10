@@ -2,18 +2,22 @@ package conicas;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class TabGraficador extends JPanel {
+public class TabGraficador extends JPanel{
 
-	JPanel representacion, representacion2;
+
 	private double valA, valH, valB, valC, valA2, valH2, valB2, valC2;
-	
 	public TabGraficador(double valA, double valH, double valB, double valC, double valA2,
 			double valH2, double valB2, double valC2) {
-
+		
+		//Inicializamos las variables
 		this.valA = valA;
 		this.valH = valH;
 		this.valB = valB;
@@ -22,6 +26,7 @@ public class TabGraficador extends JPanel {
 		this.valH2 = valH2;
 		this.valB2 = valB2;
 		this.valC2 = valC2;
+		
 		init();
 	}
 
@@ -30,10 +35,10 @@ public class TabGraficador extends JPanel {
 	}
 
 	@Override
+	//Dibujamos el eje de coordenadas
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		g.setColor(Color.red);
+		g.setColor(Color.black);
 		
 		//Las coordenadas comienzan desde la esquina superior izquierda
 		g.drawLine(0, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2);
@@ -42,10 +47,11 @@ public class TabGraficador extends JPanel {
 		
 		paintSQRFunc(g, -this.getWidth() / 2, this.getWidth() / 2, -this.getHeight() / 2,
 				this.getHeight() / 2);
+
 				
 	}
 
-	
+	//Operación que diferencia el tipo de ecuación
 	public double tipoConica(double valorA, double valorH, double valorB, double valorC) {
 		
 		double tipoConica = valorH*valorH - 4*valorA*valorB;		
@@ -54,26 +60,37 @@ public class TabGraficador extends JPanel {
 	
 	//f(xy) = valA*X^2 + valH*XY + valB*Y^2 + valC = 0 
 
-
+	/*Este es el graficador, que funciona creando cuatro puntos. Los
+	 * 
+	 * dos primeros serán el mismo, pero uno positivo y otro negativo
+	 * 
+	 * y los dos siguientes serán la continuación de los anteriores
+	 * 
+	 * */
+	
 	public void paintSQRFunc(Graphics g, double x1, double x2, double y1, double y2) {
 		
 		//Elipse, circulo o punto/recta
 		if(tipoConica(valA, valH, valB, valC) < 0) {
 
 			for(double i = x1; i < x2; i++) {
-				g.setColor(Color.black);
+				g.setColor(Color.red);
 					
 				double py = (-valH*i + Math.sqrt(((valH*i)*(valH*i)) - 4*valB*(valA*i*i + valC)));
 				double ny = (-valH*i - Math.sqrt(((valH*i)*(valH*i)) - 4*valB*(valA*i*i + valC)));
 				double xp = i + 1;
 				double py2 = (-valH*xp + Math.sqrt(((valH*xp)*(valH*xp)) - 4*valB*(valA*xp*xp + valC)));
 				double ny2 = (-valH*xp - Math.sqrt(((valH*xp)*(valH*xp)) - 4*valB*(valA*xp*xp + valC)));
-	
-				g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
-				g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
 				
+				//Evita que se creen bucles innecesarios
+				if(!Double.isNaN(i) && !Double.isNaN(xp) && !Double.isNaN(py) && !Double.isNaN(ny) && !Double.isNaN(py2) && !Double.isNaN(ny2)){
+					g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
+					g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
+				
+				}
 			}
 		}
+		
 		//Elipse, circulo o punto/recta
 		if(tipoConica(valA2, valH2, valB2, valC2) < 0) {
 	
@@ -86,10 +103,11 @@ public class TabGraficador extends JPanel {
 				double py2 = (-valH2*xp + Math.sqrt(((valH2*xp)*(valH2*xp)) - 4*valB2*(valA2*xp*xp + valC2)));
 				double ny2 = (-valH2*xp - Math.sqrt(((valH2*xp)*(valH2*xp)) - 4*valB2*(valA2*xp*xp + valC2)));
 				
-				g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
-				g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
-		
+				if(!Double.isNaN(i) && !Double.isNaN(xp) && !Double.isNaN(py) && !Double.isNaN(ny) && !Double.isNaN(py2) && !Double.isNaN(ny2)){
+					g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
+					g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
 				
+				}
 			}
 		}
 
@@ -104,10 +122,12 @@ public class TabGraficador extends JPanel {
 				double xp = i + 1;
 				double py2 = (-valH*xp + Math.sqrt(((valH*xp)*(valH*xp)) - 4*valB*(valA*xp*xp + valC)));
 				double ny2 = (-valH*xp - Math.sqrt(((valH*xp)*(valH*xp)) - 4*valB*(valA*xp*xp + valC)));
-	
-				g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
-				g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
+
+				if(!Double.isNaN(i) && !Double.isNaN(xp) && !Double.isNaN(py) && !Double.isNaN(ny) && !Double.isNaN(py2) && !Double.isNaN(ny2)){
+					g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
+					g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
 				
+				}
 			}
 		}
 		//Parábola, 2 lineas paralelas, 1/ninguna linea
@@ -121,10 +141,12 @@ public class TabGraficador extends JPanel {
 				double xp = i + 1;
 				double py2 = (-valH2*xp + Math.sqrt(((valH2*xp)*(valH2*xp)) - 4*valB2*(valA2*xp*xp + valC2)));
 				double ny2 = (-valH2*xp - Math.sqrt(((valH2*xp)*(valH2*xp)) - 4*valB2*(valA2*xp*xp + valC2)));
+
+				if(!Double.isNaN(i) && !Double.isNaN(xp) && !Double.isNaN(py) && !Double.isNaN(ny) && !Double.isNaN(py2) && !Double.isNaN(ny2)){
+					g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
+					g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
 				
-				g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
-				g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
-				
+				}
 			}
 		}
 
@@ -132,17 +154,19 @@ public class TabGraficador extends JPanel {
 		if(tipoConica(valA, valH, valB, valC) > 0) {
 
 			for(double i = x1; i < x2; i++) {
-				g.setColor(Color.pink);
+				g.setColor(Color.blue);
 					
 				double py = (-valH*i + Math.sqrt(((valH*i)*(valH*i)) - 4*valB*(valA*i*i + valC)));
 				double ny = (-valH*i - Math.sqrt(((valH*i)*(valH*i)) - 4*valB*(valA*i*i + valC)));
 				double xp = i + 1;
 				double py2 = (-valH*xp + Math.sqrt(((valH*xp)*(valH*xp)) - 4*valB*(valA*xp*xp + valC)));
 				double ny2 = (-valH*xp - Math.sqrt(((valH*xp)*(valH*xp)) - 4*valB*(valA*xp*xp + valC)));
-	
-				g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
-				g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
+
+				if(!Double.isNaN(i) && !Double.isNaN(xp) && !Double.isNaN(py) && !Double.isNaN(ny) && !Double.isNaN(py2) && !Double.isNaN(ny2)){
+					g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
+					g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
 				
+				}
 			}
 		}
 		
@@ -157,13 +181,14 @@ public class TabGraficador extends JPanel {
 				double xp = i + 1;
 				double py2 = (-valH2*xp + Math.sqrt(((valH2*xp)*(valH2*xp)) - 4*valB2*(valA2*xp*xp + valC2)));
 				double ny2 = (-valH2*xp - Math.sqrt(((valH2*xp)*(valH2*xp)) - 4*valB2*(valA2*xp*xp + valC2)));
+
+				if(!Double.isNaN(i) && !Double.isNaN(xp) && !Double.isNaN(py) && !Double.isNaN(ny) && !Double.isNaN(py2) && !Double.isNaN(ny2)){
+					g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
+					g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
 				
-				g.drawLine((int) coord_x(i), (int) coord_y(py), (int) coord_x(xp), (int) coord_y(py2));
-				g.drawLine((int) coord_x(i), (int) coord_y(ny), (int) coord_x(xp), (int) coord_y(ny2));
-				
+				}
 			}
-		}
-		
+		}	
 	}
 	
 	//Hay que sumarle la mitad del ancho mas el numero para que coincida
@@ -177,5 +202,5 @@ public class TabGraficador extends JPanel {
         double real_y = -y+this.getHeight()/2;
         return (real_y);
     }
-
 }
+
