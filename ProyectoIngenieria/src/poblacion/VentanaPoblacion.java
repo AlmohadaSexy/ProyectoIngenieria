@@ -45,8 +45,9 @@ public class VentanaPoblacion {
 			}
 		});
 	}
+	
 	/**
-	 * Este metodo cierra framePoblacion y abre menuPrincipal
+	 * Este metodo cierra ventana y abre MenuPrincipal
 	 */
 	public void close() {
 		EventQueue.invokeLater(new Runnable() {
@@ -106,13 +107,12 @@ public class VentanaPoblacion {
     				nombre = pedirDatos.getNombre();
     				operaciones.setNombre(nombre);
     				ok = true;
-    			} catch(Exception ee) {
+    			} catch(NumberFormatException eee) {
     				JOptionPane.showMessageDialog(null, "Usa un formato correcto");
     				ok = false;
     			}
     			final boolean doubleJustSeemsGood = ok;
     			if(doubleJustSeemsGood && panelTab.getSelectedIndex() == 0) {
-    				
         			operaciones.rellenarMatrices(A, k, B, PA, PJ);
         			operaciones.iteraciones();
         			operaciones.operations();
@@ -125,13 +125,21 @@ public class VentanaPoblacion {
 						}else {
 							Operaciones.arrArchivo = new String[1][2];
 							Operaciones.arrArchivo[0][0] = nombre;
-							Operaciones.arrArchivo[0][1] = String.valueOf(operaciones.matrizTabla[21][3]);
+							String aux = String.valueOf(operaciones.matrizTabla[21][3]);
+							String poblacion = "";
+							for (int i = 0; i < aux.length(); i++) {
+								if(aux.charAt(i) != 0) {
+									poblacion += aux.charAt(i);
+								}
+							}
+							Operaciones.arrArchivo[0][1] = poblacion;
 						} 
 						operaciones.write();
 						botonRank.setEnabled(true);
 					} catch(Exception ee) {
 						
 					}
+					
 					operaciones.numLineas++;
         			panelTab.setSelectedIndex(panelTab.getTabCount() - 1);
     			} else if (panelTab.getSelectedIndex() != 0){
@@ -149,10 +157,6 @@ public class VentanaPoblacion {
     	botonClear.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			pedirDatos.clear();
-    			if(panelTab.getSelectedIndex() != 0) {
-    				panelTab.removeTabAt(panelTab.getSelectedIndex());
-    			}
-    			panelTab.setSelectedIndex(0);
     		}
     	});
     	
@@ -191,8 +195,10 @@ public class VentanaPoblacion {
  		    public void stateChanged(ChangeEvent e) {
  		    	if (panelTab.getSelectedIndex() == 0) {
  		    		botonCerrarTab.setEnabled(false);
+ 		    		botonClear.setEnabled(true);
  		    	} else {
  		    		botonCerrarTab.setEnabled(true);
+ 		    		botonClear.setEnabled(false);
  		    	}
  		    }
     	});
@@ -215,8 +221,6 @@ public class VentanaPoblacion {
         panelPrincipal.add(pedirDatos);
         panelPrincipal.add(panelBotones, BorderLayout.PAGE_END);
         ventana.add(panelPrincipal);
-        
-        ventana.setMinimumSize(new Dimension(panelPrincipal.getHeight(), panelBotones.getWidth() + 200));
 	}
 	
 	public void addTab(String Nombre, JPanel panel) {
@@ -245,11 +249,11 @@ public class VentanaPoblacion {
 			strArr[i] = in.readLine();
 			label = new JLabel(strArr[i]);
 			label.setHorizontalAlignment(SwingConstants.CENTER);
-			label.setFont(new Font("Tahoma", Font.PLAIN, 26));
+			label.setFont(new Font("Tahoma", Font.PLAIN, 24));
 			panel1.add(label);
 		}
 		JButton buttonBack = new JButton("Atras");
-		buttonBack.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		buttonBack.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		buttonBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			frame.dispose();
@@ -257,7 +261,7 @@ public class VentanaPoblacion {
     		}
     	});
 		panel2.add(buttonBack);
-		panelp.add(panel1);
+		panelp.add(panel1, BorderLayout.CENTER);
 		panelp.add(panel2, BorderLayout.PAGE_END);
 		
 	}

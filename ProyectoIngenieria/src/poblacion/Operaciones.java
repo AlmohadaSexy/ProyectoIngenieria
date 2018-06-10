@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 public class Operaciones {
 	static JTable table;
 	String[] titulos = {"A\u00f1o", "P J", "P A", "P T", "PJn/PAn", "Tn/Tn-1"};
-	public double[][]matrizFin;
+	double[][]matrizFin;
 	double[][]matrizCons;
 	Object[][]matrizTabla = new Object[22][6];
 	double[] totals = new double[22];
@@ -160,7 +160,7 @@ public class Operaciones {
 	 * @author IgnacioT
 	 */
 	
-	public static int aux1, aux2, aux3;
+	public int aux1, aux2, aux3, aux4;
 	@SuppressWarnings("resource")
 	public void read() throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader("Resultados.txt"));
@@ -176,8 +176,8 @@ public class Operaciones {
 			dato = archivo.readLine();
 			
 			int datoLong = dato.length();
-			
-			
+			aux4 = datoLong;
+			int ii = 0;
 			//Marcamos los auxiliares para poder separar el string
 			for(int k = 0; k < datoLong; k++) {
 				if(dato.charAt(k)=='|') {
@@ -189,6 +189,10 @@ public class Operaciones {
 				if(dato.charAt(k)==':') {
 					aux3 = k + 2;
 				}
+				if(aux3 < k && ii == 0 && dato.charAt(k) == 0) {
+					aux4 = k;
+					ii++;
+				} 
 			}
 			
 			for(int j = 0; j < 2; j++) {
@@ -201,9 +205,8 @@ public class Operaciones {
 				}
 				if(j == 1) {
 					String poblacion = "";
-					for(int k = aux3; k < datoLong; k++) {
-						if(dato.charAt(k) == '0' || dato.charAt(k) == '1' || dato.charAt(k) == '2' || dato.charAt(k) == '3' || dato.charAt(k) == '4' || dato.charAt(k) == '5' ||
-								dato.charAt(k) == '6' || dato.charAt(k) == '7' || dato.charAt(k) == '8' || dato.charAt(k) == '9') {
+					for(int k = aux3; k < aux4; k++) {
+						if(dato.charAt(k) != 0) {
 							poblacion += dato.charAt(k);
 						}
 					}
@@ -213,7 +216,14 @@ public class Operaciones {
 			}
 		}
 		arrArchivo[numLineas][0] = nombre;
-		arrArchivo[numLineas][1] = String.valueOf(matrizTabla[21][3]);
+		String aux = String.valueOf(matrizTabla[21][3]);
+		String poblacion = "";
+		for (int i = 0; i < aux.length(); i++) {
+			if(aux.charAt(i) != 0) {
+				poblacion += aux.charAt(i);
+			}
+		}
+		arrArchivo[numLineas][1] = poblacion;
 		
 		
 	}
