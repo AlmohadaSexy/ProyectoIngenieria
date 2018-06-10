@@ -98,11 +98,11 @@ public class SpringUtilities {
 
         //Set the parent's size.
         SpringLayout.Constraints pCons = layout.getConstraints(parent);
-/*        pCons.setConstraint(SpringLayout.SOUTH,
+        pCons.setConstraint(SpringLayout.SOUTH,
                             Spring.sum(
                                 Spring.constant(yPad),
                                 lastCons.getConstraint(SpringLayout.SOUTH)));
-*/
+
         pCons.setConstraint(SpringLayout.EAST,
                             Spring.sum(
                                 Spring.constant(xPad),

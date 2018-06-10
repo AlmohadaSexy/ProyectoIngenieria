@@ -1,7 +1,6 @@
 package poblacion;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,21 +14,22 @@ import javax.swing.table.DefaultTableModel;
 public class Operaciones {
 	static JTable table;
 	String[] titulos = {"A\u00f1o", "P J", "P A", "P T", "PJn/PAn", "Tn/Tn-1"};
-	public double[][]matrizFin;
+	double[][]matrizFin;
 	double[][]matrizCons;
 	Object[][]matrizTabla = new Object[22][6];
 	double[] totals = new double[22];
 	static int cont = 1;
-	public String Nombre;
+	public String nombre;
 	static String[][] arrArchivo;
 	VentanaPoblacion salida;
-	private Dimension TableSize;
 	public int numLineas = 0;
+	
 	Operaciones() {
 
 	}
+	
 	public void setNombre(String nombre) {
-		this.Nombre = nombre;
+		this.nombre = nombre;
 	}
 	/**
 	 * Este metodo es el que se llama desde la clase mainPoblacion.</br>
@@ -131,7 +131,11 @@ public class Operaciones {
 			matrizFin = multiply();
 		}
 	}
-	
+	/**
+	 * Este metodo no hace mas que rellenar el array de la tabla
+	 * 
+	 * @param i contador que se añade desde el for desde el que se llama a este metodo
+	 */
 	private void aLaTabla(int i) {
 		//Poblacion J
 		matrizTabla[i+1][1] = (int)matrizFin[0][0]; 
@@ -160,7 +164,7 @@ public class Operaciones {
 	 * @author IgnacioT
 	 */
 	
-	public static int aux1, aux2, aux3;
+	public int aux1, aux2, aux3;
 	@SuppressWarnings("resource")
 	public void read() throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader("Resultados.txt"));
@@ -176,8 +180,6 @@ public class Operaciones {
 			dato = archivo.readLine();
 			
 			int datoLong = dato.length();
-			
-			
 			//Marcamos los auxiliares para poder separar el string
 			for(int k = 0; k < datoLong; k++) {
 				if(dato.charAt(k)=='|') {
@@ -202,8 +204,7 @@ public class Operaciones {
 				if(j == 1) {
 					String poblacion = "";
 					for(int k = aux3; k < datoLong; k++) {
-						if(dato.charAt(k) == '0' || dato.charAt(k) == '1' || dato.charAt(k) == '2' || dato.charAt(k) == '3' || dato.charAt(k) == '4' || dato.charAt(k) == '5' ||
-								dato.charAt(k) == '6' || dato.charAt(k) == '7' || dato.charAt(k) == '8' || dato.charAt(k) == '9') {
+						if(dato.charAt(k) != 0) {
 							poblacion += dato.charAt(k);
 						}
 					}
@@ -212,8 +213,16 @@ public class Operaciones {
 				
 			}
 		}
-		arrArchivo[numLineas][0] = Nombre;
-		arrArchivo[numLineas][1] = String.valueOf(matrizTabla[21][3]);
+		arrArchivo[numLineas][0] = nombre;
+		//Esto es para que no aparezcan cuadrados en la ventana ranking
+		String aux = String.valueOf(matrizTabla[21][3]);
+		String poblacion = "";
+		for (int i = 0; i < aux.length(); i++) {
+			if(aux.charAt(i) != 0) {
+				poblacion += aux.charAt(i);
+			}
+		}
+		arrArchivo[numLineas][1] = poblacion;
 		
 		
 	}
@@ -275,12 +284,24 @@ public class Operaciones {
 		}
 		writer.close();
 	}
-	
+	/**
+	 * Rellena ambas matrices, la constante y la final
+	 * 
+	 * @param A alpha
+	 * @param k k
+	 * @param B beta
+	 * @param PA poblacion adulta
+	 * @param PJ poblacion joven
+	 */
 	public void rellenarMatrices(double A, double k, double B, int PA, int PJ) {
 		matrizConstante(k, A, B);
 		matrizFin(PJ, PA);
 	}
-	
+	/**
+	 * Crea la tabla con el array de la tabla
+	 * 
+	 * @return JPanel que se usa en el JTabbedPane
+	 */
 	@SuppressWarnings("serial")
 	public JPanel getTablePanel() {
 		JPanel panel = new JPanel();
@@ -291,13 +312,6 @@ public class Operaciones {
 			});
 		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		panel.add(table, BorderLayout.CENTER);
-		setTableSize(panel.getSize());
 		return panel;
-	}
-	public void setTableSize(Dimension dimension) {
-		this.TableSize = dimension;
-	}
-	public Dimension getTableSize() {
-		return TableSize;
 	}
 }

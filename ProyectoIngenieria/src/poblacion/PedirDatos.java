@@ -10,7 +10,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
-public class pedirDatos extends JPanel{
+public class PedirDatos extends JPanel{
 	private static final long serialVersionUID = 1L;
 	JLabel labelK, labelA, labelB, labelPJ, labelPA;
 	public JTextField textFieldK, textFieldA, textFieldB, textFieldPJ, textFieldPA, textFieldNombre;
@@ -19,7 +19,7 @@ public class pedirDatos extends JPanel{
 	 * Este metodo crea un panel e introduce dentro cada elemento (labels y textFields ligados) ordenandolos con un SpringLayout
 	 * @author IgnacioT
 	 */
-	public pedirDatos(JTabbedPane panelTab) {
+	public PedirDatos(JTabbedPane panelTab) {
 		super(new GridLayout(1, 1));
 		
 		
@@ -114,7 +114,9 @@ public class pedirDatos extends JPanel{
 	public String getNombre() {
 		return String.valueOf(textFieldNombre.getText());
 	}
-	
+	/**
+	 * Borra todos los textfields
+	 */
 	public void clear() {
 		textFieldK.setText("");
 		textFieldA.setText("");

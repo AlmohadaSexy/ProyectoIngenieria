@@ -1,6 +1,8 @@
 package poblacion;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import main.MenuPrincipal;
 
@@ -17,18 +19,48 @@ public class VentanaPoblacion {
 	JFrame ventana;
 	GridBagLayout gbl;
 	GridBagConstraints gbc;
-	pedirDatos upperPanel;
+	PedirDatos pedirDatos;
 	JPanel panelBotones, panelPrincipal;
 	public  JTabbedPane panelTab;
 	boolean doubleJustSeemsGood;
 	double k, A, B;
 	int PA, PJ;
-	String Nombre;
+	String nombre;
 	public JButton botonSubmit;
-	JButton botonClear, botonAtras, botonRank;
+	JButton botonClear, botonAtras, botonRank, botonCerrarTab;
 	Operaciones operaciones;
 	Variables v = new Variables();
 	
+	/**
+	 * Este metodo abre esta ventana
+	 */
+	public void open() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ventana.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Este metodo cierra ventana y abre MenuPrincipal
+	 */
+	public void close() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ventana.dispose();
+					new MenuPrincipal().open();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 	/**
 	 * 
 	 * 
@@ -47,12 +79,12 @@ public class VentanaPoblacion {
     	//Creamos los 3 paneles, el principal, y los dos que van a ir dentro
     	panelPrincipal = new JPanel();
     	panelTab = new JTabbedPane();
-    	upperPanel = new pedirDatos(panelTab);
-    	upperPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    	pedirDatos = new PedirDatos(panelTab);
+    	pedirDatos.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
     	panelBotones = new JPanel();
         
     	botonAtras = new JButton("Atras");
-    	botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 26));
+    	botonAtras.setFont(new Font("Tahoma", Font.PLAIN, 18));
     	botonAtras.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			ventana.dispose();
@@ -62,46 +94,57 @@ public class VentanaPoblacion {
     	});
         
         botonSubmit = new JButton("Aceptar");
-    	botonSubmit.setFont(new Font("Tahoma", Font.PLAIN, 26));
+    	botonSubmit.setFont(new Font("Tahoma", Font.PLAIN, 18));
     	botonSubmit.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			boolean ok = doubleJustSeemsGood;
     			try	{
-    				k = upperPanel.getK();
-    				A = upperPanel.getA();
-    				B = upperPanel.getB();
-    				PA = upperPanel.getPA();
-    				PJ = upperPanel.getPJ();	
-    				Nombre = upperPanel.getNombre();
-    				operaciones.setNombre(Nombre);
+    				k = pedirDatos.getK();
+    				A = pedirDatos.getA();
+    				B = pedirDatos.getB();
+    				PA = pedirDatos.getPA();
+    				PJ = pedirDatos.getPJ();	
+    				nombre = pedirDatos.getNombre();
+    				operaciones.setNombre(nombre);
     				ok = true;
-    			} catch(Exception ee) {
-    				JOptionPane.showMessageDialog(null, "No se puede convertir a Double");
+    			} catch(NumberFormatException eee) {
+    				JOptionPane.showMessageDialog(null, "Usa un formato correcto");
     				ok = false;
     			}
     			final boolean doubleJustSeemsGood = ok;
     			if(doubleJustSeemsGood && panelTab.getSelectedIndex() == 0) {
-    				
         			operaciones.rellenarMatrices(A, k, B, PA, PJ);
         			operaciones.iteraciones();
         			operaciones.operations();
-					addTab(Nombre, operaciones.getTablePanel());
+					addTab(nombre, operaciones.getTablePanel());
 					File file = new File("Resultados.txt");
 					try{
+						/**
+						 * Si el archivo existe pues lo leemos, lo reordenamos y despues lo volvemos a escribir
+						 * Si el archivo no existe rellenamos el Array del archivo con los datos que acabamos de introducir, 
+						 * borrando los espacios que se crean al castear de Object a String
+						 */
 						if(file.exists()) {
 							operaciones.read();
 							operaciones.reorder();
 						}else {
 							Operaciones.arrArchivo = new String[1][2];
-							Operaciones.arrArchivo[0][0] = Nombre;
-							Operaciones.arrArchivo[0][1] = String.valueOf(operaciones.matrizTabla[21][3]);
+							Operaciones.arrArchivo[0][0] = nombre;
+							String aux = String.valueOf(operaciones.matrizTabla[21][3]);
+							String poblacion = "";
+							for (int i = 0; i < aux.length(); i++) {
+								if(aux.charAt(i) != 0) {
+									poblacion += aux.charAt(i);
+								}
+							}
+							Operaciones.arrArchivo[0][1] = poblacion;
 						} 
 						operaciones.write();
 						botonRank.setEnabled(true);
-						//operaciones.setNumLineas(operaciones.getNumLineas());
 					} catch(Exception ee) {
 						
 					}
+					
 					operaciones.numLineas++;
         			panelTab.setSelectedIndex(panelTab.getTabCount() - 1);
     			} else if (panelTab.getSelectedIndex() != 0){
@@ -114,25 +157,34 @@ public class VentanaPoblacion {
 			
     	});
 		
-    	botonClear = new JButton("Cerrar TAB y limpiar");
-    	botonClear.setFont(new Font("Tahoma", Font.PLAIN, 26));
+    	botonClear = new JButton("Limpiar");
+    	botonClear.setFont(new Font("Tahoma", Font.PLAIN, 18));
     	botonClear.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			upperPanel.clear();
-    			
-    			panelTab.removeTabAt(panelTab.getSelectedIndex());
-    			panelTab.setSelectedIndex(0);
+    			pedirDatos.clear();
     		}
     	});
     	
+    	botonCerrarTab = new JButton("Cerrar TAB");
+    	botonCerrarTab.setFont(new Font("Tahoma", Font.PLAIN, 18));
+    	botonCerrarTab.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			if(panelTab.getSelectedIndex() != 0) {
+    				panelTab.removeTabAt(panelTab.getSelectedIndex());
+    			}
+    			panelTab.setSelectedIndex(0);
+    		}
+    	});
+    	botonCerrarTab.setEnabled(false);
+    	
     	botonRank = new JButton("Ver Ranking");
-    	botonRank.setFont(new Font("Tahoma", Font.PLAIN, 26));
+    	botonRank.setFont(new Font("Tahoma", Font.PLAIN, 18));
     	botonRank.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			ventana.dispose();
     			try {
     				if(Operaciones.arrArchivo == null) {
-        				operaciones.read();
+        			 	operaciones.read();
         			}
 					ranking();
 				} catch (IOException e1) {
@@ -143,12 +195,25 @@ public class VentanaPoblacion {
     	File file = new File("Resultados.txt");
     	if(file.exists() == false) {
     		botonRank.setEnabled(false);
-    	}
+    	}   
+    	panelTab.addChangeListener(new ChangeListener() {
+ 		    public void stateChanged(ChangeEvent e) {
+ 		    	if (panelTab.getSelectedIndex() == 0) {
+ 		    		botonCerrarTab.setEnabled(false);
+ 		    		botonClear.setEnabled(true);
+ 		    	} else {
+ 		    		botonCerrarTab.setEnabled(true);
+ 		    		botonClear.setEnabled(false);
+ 		    	}
+ 		    }
+    	});
     	//Ponemos el layout al panelBotones y añadimos los respectivos botones
     	panelBotones.setLayout(new BoxLayout(panelBotones,BoxLayout.LINE_AXIS));
     	panelBotones.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
     	panelBotones.add(Box.createHorizontalGlue());
     	panelBotones.add(botonSubmit);
+    	panelBotones.add(Box.createRigidArea(new Dimension (5,0)));
+        panelBotones.add(botonCerrarTab);
         panelBotones.add(Box.createRigidArea(new Dimension (5,0)));
         panelBotones.add(botonClear);
         panelBotones.add(Box.createRigidArea(new Dimension (5,0)));
@@ -158,11 +223,9 @@ public class VentanaPoblacion {
 
         //Ponemos el layout al panel principal y añadimos upperPanel y panelBotones
         panelPrincipal.setLayout(new BorderLayout());
-        panelPrincipal.add(upperPanel);
+        panelPrincipal.add(pedirDatos);
         panelPrincipal.add(panelBotones, BorderLayout.PAGE_END);
         ventana.add(panelPrincipal);
-        
-        ventana.setMinimumSize(new Dimension(panelPrincipal.getHeight(), panelBotones.getWidth() + 200));
 	}
 	
 	public void addTab(String Nombre, JPanel panel) {
@@ -186,16 +249,16 @@ public class VentanaPoblacion {
 		panel1.setLayout(new GridLayout(operaciones.numLineas + 1,1));
 		JLabel label;
 		BufferedReader in = new BufferedReader(new FileReader("Resultados.txt"));
-		String[] strARR = new String[operaciones.numLineas];
+		String[] strArr = new String[operaciones.numLineas];
 		for(int i = 0; i < operaciones.numLineas; i++) {
-			strARR[i] = in.readLine();
-			label = new JLabel(strARR[i]);
+			strArr[i] = in.readLine();
+			label = new JLabel(strArr[i]);
 			label.setHorizontalAlignment(SwingConstants.CENTER);
-			label.setFont(new Font("Tahoma", Font.PLAIN, 26));
+			label.setFont(new Font("Tahoma", Font.PLAIN, 24));
 			panel1.add(label);
 		}
 		JButton buttonBack = new JButton("Atras");
-		buttonBack.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		buttonBack.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		buttonBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			frame.dispose();
@@ -203,7 +266,7 @@ public class VentanaPoblacion {
     		}
     	});
 		panel2.add(buttonBack);
-		panelp.add(panel1);
+		panelp.add(panel1, BorderLayout.CENTER);
 		panelp.add(panel2, BorderLayout.PAGE_END);
 		
 	}

@@ -50,7 +50,7 @@ public class MenuPrincipal{
 	}
 	
 	private void initialize() {
-frame = new JFrame("MenuPrincipal");
+		frame = new JFrame("MenuPrincipal");
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double anchuraPantalla = (screenSize.getWidth())/3;
@@ -94,7 +94,7 @@ frame = new JFrame("MenuPrincipal");
 		btn3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				new mainPoblacion().open();
+				new VentanaPoblacion().open();
 			}
 		});
 		panel.add(btn3);
