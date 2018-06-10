@@ -13,7 +13,5 @@ public class Variables {
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	public int width =  (int) ((screenSize.getWidth())*2/5);
 	public int height =  (int) ((screenSize.getHeight())/2);
-	
-	public int contLineas;
 }
                                                                                                                                                                                                                                                                                                                                            

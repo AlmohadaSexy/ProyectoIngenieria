@@ -119,6 +119,11 @@ public class VentanaPoblacion {
 					addTab(nombre, operaciones.getTablePanel());
 					File file = new File("Resultados.txt");
 					try{
+						/**
+						 * Si el archivo existe pues lo leemos, lo reordenamos y despues lo volvemos a escribir
+						 * Si el archivo no existe rellenamos el Array del archivo con los datos que acabamos de introducir, 
+						 * borrando los espacios que se crean al castear de Object a String
+						 */
 						if(file.exists()) {
 							operaciones.read();
 							operaciones.reorder();

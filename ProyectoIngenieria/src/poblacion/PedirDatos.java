@@ -114,7 +114,9 @@ public class PedirDatos extends JPanel{
 	public String getNombre() {
 		return String.valueOf(textFieldNombre.getText());
 	}
-	
+	/**
+	 * Borra todos los textfields
+	 */
 	public void clear() {
 		textFieldK.setText("");
 		textFieldA.setText("");
